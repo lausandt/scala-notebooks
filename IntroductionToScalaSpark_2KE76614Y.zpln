@@ -1,0 +1,2668 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md \n\n## Data Analysis with Scala and Spark (instead of Python)\n\nMy partner retrained as a data engineer, and on her behalf I reviewed a book by Johnathan Rioux: Data Analysis with Python and PySpark. I like the book; it teaches you a lot about Spark. Unfortunately, I did have some issues with the Python code Rioux uses. I think it is the type of code that gives Python a bad reputation—the kind of code that invites faults. I also think that it is not modern idiomatic Python, for modern idiomatic Python includes typing, comments, etc. I therefore wrote a series of notebooks and recreated the examples using modern, idiomatic Python. However much I like Python (in fact, I love Python), there are, in my opinion, better programming languages, languages that are safer, faster, and better suited to the domain of data science. Without trying to bore the reader, we could divide programming languages into two main branches:\n\n1. Imperative languages, languages that are all about controlling execution flow and changing state, languages like C, Java, and Python. \n2. Functional languages, languages that are all about execution and composing mathematical functions, languages like Haskell, ML, and Scala \n\nData science is all about evaluating mathematical functions; it thus seems obvious that a functional language is the natural choice for data science. I guess the people who created Spark agreed as they used Scala as language to write Spark in. One of the great advantages of Python above most aforementioned languages is that it is intuitive; it has a very clear syntax. If we would compare Python to Java, we would have to say that Java is overly verbose. If we would compare Python to Haskell, we would say that Haskell is overly abstract. However, if we were to compare Python to new Scala, then we would have to say they are very similar. The Scala syntax, with the advent of Scala 3, has undergone a quite radical change from being Javaish to Python-like. I feel that any competent Python programmer would have a very gentle learning curve for Scala. \n\nThese notebooks, which are essentially the same as the Python notebooks, are written just to show that point. The original notebooks were written in Jupyter; these are written in Apache Zeppelin. I have two reasons for that:\n\n1. The combination of Jupyter/Spark 3.5.3/Scala 3.5.2 is not great (yet, Almond will perhaps catch up?). Whereas the combination Zeppelin/Spark 3.5.3/Scala 3.5.2 is excellent. \n2. I easily can run Scala and Python in the same notebook. \n\n[Apache Zeppelin](https://zeppelin.apache.org/) is free so there is no holding you back.",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:22:57.392",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eData Analysis with Scala and Spark (instead of Python)\u003c/h2\u003e\n\u003cp\u003eMy partner retrained as a data engineer, and on her behalf I reviewed a book by Johnathan Rioux: Data Analysis with Python and PySpark. I like the book; it teaches you a lot about Spark. Unfortunately, I did have some issues with the Python code Rioux uses. I think it is the type of code that gives Python a bad reputation—the kind of code that invites faults. I also think that it is not modern idiomatic Python, for modern idiomatic Python includes typing, comments, etc. I therefore wrote a series of notebooks and recreated the examples using modern, idiomatic Python. However much I like Python (in fact, I love Python), there are, in my opinion, better programming languages, languages that are safer, faster, and better suited to the domain of data science. Without trying to bore the reader, we could divide programming languages into two main branches:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eImperative languages, languages that are all about controlling execution flow and changing state, languages like C, Java, and Python.\u003c/li\u003e\n\u003cli\u003eFunctional languages, languages that are all about execution and composing mathematical functions, languages like Haskell, ML, and Scala\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003eData science is all about evaluating mathematical functions; it thus seems obvious that a functional language is the natural choice for data science. I guess the people who created Spark agreed as they used Scala as language to write Spark in. One of the great advantages of Python above most aforementioned languages is that it is intuitive; it has a very clear syntax. If we would compare Python to Java, we would have to say that Java is overly verbose. If we would compare Python to Haskell, we would say that Haskell is overly abstract. However, if we were to compare Python to new Scala, then we would have to say they are very similar. The Scala syntax, with the advent of Scala 3, has undergone a quite radical change from being Javaish to Python-like. I feel that any competent Python programmer would have a very gentle learning curve for Scala.\u003c/p\u003e\n\u003cp\u003eThese notebooks, which are essentially the same as the Python notebooks, are written just to show that point. The original notebooks were written in Jupyter; these are written in Apache Zeppelin. I have two reasons for that:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eThe combination of Jupyter/Spark 3.5.3/Scala 3.5.2 is not great (yet, Almond will perhaps catch up?). Whereas the combination Zeppelin/Spark 3.5.3/Scala 3.5.2 is excellent.\u003c/li\u003e\n\u003cli\u003eI easily can run Scala and Python in the same notebook.\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003e\u003ca href\u003d\"https://zeppelin.apache.org/\"\u003eApache Zeppelin\u003c/a\u003e is free so there is no holding you back.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730301533378_1378177837",
+      "id": "paragraph_1730301533378_1378177837",
+      "dateCreated": "2024-10-30 16:18:53.378",
+      "dateStarted": "2024-11-04 13:22:57.399",
+      "dateFinished": "2024-11-04 13:22:57.696",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%python\n\npy_ex: list[int] \u003d list(range(1,6))\npy_ex",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:23:00.645",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[1, 2, 3, 4, 5]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730304925133_1898958613",
+      "id": "paragraph_1730304925133_1898958613",
+      "dateCreated": "2024-10-30 17:15:25.133",
+      "dateStarted": "2024-11-04 13:23:00.669",
+      "dateFinished": "2024-11-04 13:23:07.276",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \n\nAbove a simple example of a Python range added to a list\nBelow the same example in Scala, which if anything is even more easy.  \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:23:13.634",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAbove a simple example of a Python range added to a list\u003cbr /\u003e\nBelow the same example in Scala, which if anything is even more easy.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730305433132_1071632765",
+      "id": "paragraph_1730305433132_1071632765",
+      "dateCreated": "2024-10-30 17:23:53.132",
+      "dateStarted": "2024-11-04 13:23:13.634",
+      "dateFinished": "2024-11-04 13:23:13.648",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\nval scEx \u003d (1 to 5).toList",
+      "user": "anonymous",
+      "dateUpdated": "2024-10-30 17:26:57.106",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mscEx\u001b[0m: \u001b[1m\u001b[32mList[Int]\u001b[0m \u003d List(1, 2, 3, 4, 5)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730304393816_903343831",
+      "id": "paragraph_1730304393816_903343831",
+      "dateCreated": "2024-10-30 17:06:33.817",
+      "dateStarted": "2024-10-30 17:26:57.112",
+      "dateFinished": "2024-10-30 17:26:57.488",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n\nAs you can see Scala gives you the feedback of what type scEx is. Python does not give you the type of py_ex, it gives you the type of the wrapper if you call type but not the elements. For MyPy the static type checker for Python I have to give a type hint `list[int]` so it can do its analysis.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:23:15.279",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAs you can see Scala gives you the feedback of what type scEx is. Python does not give you the type of py_ex, it gives you the type of the wrapper if you call type but not the elements. For MyPy the static type checker for Python I have to give a type hint \u003ccode\u003elist[int]\u003c/code\u003e so it can do its analysis.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730305190948_1976045865",
+      "id": "paragraph_1730305190948_1976045865",
+      "dateCreated": "2024-10-30 17:19:50.949",
+      "dateStarted": "2024-11-04 13:23:15.280",
+      "dateFinished": "2024-11-04 13:23:15.292",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%python\ntype(py_ex)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:23:17.740",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u003cclass \u0027list\u0027\u003e\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730305534908_1938856971",
+      "id": "paragraph_1730305534908_1938856971",
+      "dateCreated": "2024-10-30 17:25:34.909",
+      "dateStarted": "2024-11-04 13:23:17.746",
+      "dateFinished": "2024-11-04 13:23:17.759",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### The DataFrame\n\nThe Spark data-structure (a data organisation and storage format) that we will use the most is the DataFrame. In modern Spark, the standard data-structure is the DataFrame. A DataFrame organises data into a 2-dimensional table of rows and columns, much like a spreadsheet, but with named columns and some other abilities. The Spark DataFrame is built upon Spark\u0027s older data-structure, the Resilient Distributed Dataset (RDD). The idea behind Spark is that modern datasets are too large for a single computer. These datasets need to be distributed over several computers, perhaps over several locations (the ubiquitous cloud), hence distributed dataset. Of course, such distribution must be done in a fault-tolerant manner so that the dataset can be restored in case of some disturbance, ergo resilient.\n\nThe DataFrame is built upon the RDD and is the data-structure to use when working with Python and Scala. The Pandas library also uses the DataFrame as its core data-structure. In fact, you can feed a Pandas DataFrame to a Spark DataFrame, yes also using Scala. Before you can create or read a DataFrame you will need to open a Spark session, which in Zeppelin just involves getting the Spark interpreter to work in the active cell by typing `%spark`\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:23:19.435",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eThe DataFrame\u003c/h4\u003e\n\u003cp\u003eThe Spark data-structure (a data organisation and storage format) that we will use the most is the DataFrame. In modern Spark, the standard data-structure is the DataFrame. A DataFrame organises data into a 2-dimensional table of rows and columns, much like a spreadsheet, but with named columns and some other abilities. The Spark DataFrame is built upon Spark\u0026rsquo;s older data-structure, the Resilient Distributed Dataset (RDD). The idea behind Spark is that modern datasets are too large for a single computer. These datasets need to be distributed over several computers, perhaps over several locations (the ubiquitous cloud), hence distributed dataset. Of course, such distribution must be done in a fault-tolerant manner so that the dataset can be restored in case of some disturbance, ergo resilient.\u003c/p\u003e\n\u003cp\u003eThe DataFrame is built upon the RDD and is the data-structure to use when working with Python and Scala. The Pandas library also uses the DataFrame as its core data-structure. In fact, you can feed a Pandas DataFrame to a Spark DataFrame, yes also using Scala. Before you can create or read a DataFrame you will need to open a Spark session, which in Zeppelin just involves getting the Spark interpreter to work in the active cell by typing \u003ccode\u003e%spark\u003c/code\u003e\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730305830564_553219165",
+      "id": "paragraph_1730305830564_553219165",
+      "dateCreated": "2024-10-30 17:30:30.564",
+      "dateStarted": "2024-11-04 13:23:19.435",
+      "dateFinished": "2024-11-04 13:23:19.454",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval data \u003d spark.sparkContext.parallelize((1 to 10).toList)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:23:22.366",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mdata\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[Int]\u001b[0m \u003d ParallelCollectionRDD[163] at parallelize at \u003cconsole\u003e:2\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730365291021_799074526",
+      "id": "paragraph_1730365291021_799074526",
+      "dateCreated": "2024-10-31 10:01:31.024",
+      "dateStarted": "2024-11-04 13:23:22.375",
+      "dateFinished": "2024-11-04 13:23:24.544",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval filtered \u003d data.filter(i \u003d\u003e i % 2 \u003d\u003d 0)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:23:26.339",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mfiltered\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[Int]\u001b[0m \u003d MapPartitionsRDD[164] at filter at \u003cconsole\u003e:2\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730365594123_952910002",
+      "id": "paragraph_1730365594123_952910002",
+      "dateCreated": "2024-10-31 10:06:34.123",
+      "dateStarted": "2024-11-04 13:23:26.344",
+      "dateFinished": "2024-11-04 13:23:27.123",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval mapped \u003d filtered.map(i \u003d\u003e Math.pow(2,i))",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:23:31.858",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mmapped\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[Double]\u001b[0m \u003d MapPartitionsRDD[165] at map at \u003cconsole\u003e:2\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730365788839_1903866235",
+      "id": "paragraph_1730365788839_1903866235",
+      "dateCreated": "2024-10-31 10:09:48.839",
+      "dateStarted": "2024-11-04 13:23:31.864",
+      "dateFinished": "2024-11-04 13:23:32.368",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval result \u003d mapped.collect()",
+      "user": "anonymous",
+      "dateUpdated": "2024-10-31 10:11:37.053",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mresult\u001b[0m: \u001b[1m\u001b[32mArray[Double]\u001b[0m \u003d Array(4.0, 16.0, 64.0, 256.0, 1024.0)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d0"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730365834663_683866196",
+      "id": "paragraph_1730365834663_683866196",
+      "dateCreated": "2024-10-31 10:10:34.664",
+      "dateStarted": "2024-10-31 10:11:37.060",
+      "dateFinished": "2024-10-31 10:11:39.274",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \n\nAs you can see no need to get or build a Spark session Zeppelin does that for you. \nThe code should be easy enough to follow for any Pythonista, yet I will make a few comments. \n\n`val data`? Scala is a functional language, with some imperative aspects, any functional language states prefers immutability over mutability. The reason behind this is that changing values of variables is a major cause of bugs in programs. Not having them prevents these bugs. `val` in Scala means value, and values can\u0027t change. Scala also knows variables, you can use the key word `var`. This is a mayor difference between the two languages; in Python basically everything is a variable, a container, a memory address with a value in it. Assigning a new variable is replacing the value in the container.",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:27:21.202",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAs you can see no need to get or build a Spark session Zeppelin does that for you.\u003cbr /\u003e\nThe code should be easy enough to follow for any Pythonista, yet I will make a few comments.\u003c/p\u003e\n\u003cp\u003e\u003ccode\u003eval data\u003c/code\u003e? Scala is a functional language, with some imperative aspects, any functional language states prefers immutability over mutability. The reason behind this is that changing values of variables is a major cause of bugs in programs. Not having them prevents these bugs. \u003ccode\u003eval\u003c/code\u003e in Scala means value, and values can\u0026rsquo;t change. Scala also knows variables, you can use the key word \u003ccode\u003evar\u003c/code\u003e. This is a mayor difference between the two languages; in Python basically everything is a variable, a container, a memory address with a value in it. Assigning a new variable is replacing the value in the container.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730365897059_1914726632",
+      "id": "paragraph_1730365897059_1914726632",
+      "dateCreated": "2024-10-31 10:11:37.059",
+      "dateStarted": "2024-11-04 13:27:21.202",
+      "dateFinished": "2024-11-04 13:27:21.215",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\nvar data \u003d (1 to 30 by 3).toList\ndata \u003d 5 +: data\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:27:24.701",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "var \u001b[1m\u001b[34mdata\u001b[0m: \u001b[1m\u001b[32mList[Int]\u001b[0m \u003d List(5, 1, 4, 7, 10, 13, 16, 19, 22, 25, 28)\n// mutated data\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730366775602_903703100",
+      "id": "paragraph_1730366775602_903703100",
+      "dateCreated": "2024-10-31 10:26:15.619",
+      "dateStarted": "2024-11-04 13:27:24.715",
+      "dateFinished": "2024-11-04 13:27:25.043",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \n\nBeing a functional language Scala uses lambdas and pattern matching a lot. \n\na python lambda would be:\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:27:39.805",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eBeing a functional language Scala uses lambdas and pattern matching a lot.\u003c/p\u003e\n\u003cp\u003ea python lambda would be:\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730367089644_1258469597",
+      "id": "paragraph_1730367089644_1258469597",
+      "dateCreated": "2024-10-31 10:31:29.644",
+      "dateStarted": "2024-11-04 13:27:39.805",
+      "dateFinished": "2024-11-04 13:27:39.815",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%python\nlist(map(lambda x: x^2, range(1,31,3)))\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-10-31 10:38:03.124",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[3, 6, 5, 8, 15, 18, 17, 20, 27, 30]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730367330045_1348695650",
+      "id": "paragraph_1730367330045_1348695650",
+      "dateCreated": "2024-10-31 10:35:30.046",
+      "dateStarted": "2024-10-31 10:38:03.139",
+      "dateFinished": "2024-10-31 10:38:03.155",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \nA scala lambda can take a few forms:\n`data.filter(i \u003d\u003e i % 2 \u003d\u003d 0)`\n`data.filter((i: Int) \u003d\u003e i % 2 \u003d\u003d 0)`\n`val filtered \u003d data.filter(_ % 2 \u003d\u003d 0)`\n\nI guess the latter is the most common form. It uses pattern matching to make the code even more succint. I would advice to start of using the first or second form, and recude it to the latter once working.",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:27:46.727",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eA scala lambda can take a few forms:\u003cbr /\u003e\n\u003ccode\u003edata.filter(i \u003d\u0026gt; i % 2 \u003d\u003d 0)\u003c/code\u003e\u003cbr /\u003e\n\u003ccode\u003edata.filter((i: Int) \u003d\u0026gt; i % 2 \u003d\u003d 0)\u003c/code\u003e\u003cbr /\u003e\n\u003ccode\u003eval filtered \u003d data.filter(_ % 2 \u003d\u003d 0)\u003c/code\u003e\u003c/p\u003e\n\u003cp\u003eI guess the latter is the most common form. It uses pattern matching to make the code even more succint. I would advice to start of using the first or second form, and recude it to the latter once working.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730367339131_1389522774",
+      "id": "paragraph_1730367339131_1389522774",
+      "dateCreated": "2024-10-31 10:35:39.132",
+      "dateStarted": "2024-11-04 13:27:46.727",
+      "dateFinished": "2024-11-04 13:27:46.737",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval pm \u003d data.filter(_ % 2 \u003d\u003d 0)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:27:50.127",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mpm\u001b[0m: \u001b[1m\u001b[32mList[Int]\u001b[0m \u003d List(4, 10, 16, 22, 28)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730367640586_330396535",
+      "id": "paragraph_1730367640586_330396535",
+      "dateCreated": "2024-10-31 10:40:40.586",
+      "dateStarted": "2024-11-04 13:27:50.131",
+      "dateFinished": "2024-11-04 13:27:50.394",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \n#### Typing \n\nTyping is fundamental in programming as it enables the compiler or interpreter to understand what kind of data to expect, how code should be processed, and even how much memory to allocate. Strong typing, in particular, helps prevent errors by enforcing that variables are only used in compatible ways, which leads to more predictable, reliable code. Scala, like Java, is strongly typed. Strongly typed can be understood to mean that a type constructor is always used to create an instance of that type. Scala is also statically typed, which basically means that code gets analysed at compile time to see if the types used match as expected. Code might be rejected before runtime. Scala uses Haskell style type interference, meaning that we don\u0027t explicitly need to type our code. The compiler will infer the type for us. \n\nWe already have seen examples of this in the above code. In Scala, we do not have to give the type, especially for values. In Python we should just read [PEP484](https://peps.python.org/pep-0484/). In Scala, we also should include types for functions and methods, as providing type information makes code easier to read and maintain since types serve as a form of documentation, clarifying the intended use of each value. \n\nFinally, types can enhance performance; most compilers use optimisation tools to handle known data types during compilation or runtime.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:27:52.511",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eTyping\u003c/h4\u003e\n\u003cp\u003eTyping is fundamental in programming as it enables the compiler or interpreter to understand what kind of data to expect, how code should be processed, and even how much memory to allocate. Strong typing, in particular, helps prevent errors by enforcing that variables are only used in compatible ways, which leads to more predictable, reliable code. Scala, like Java, is strongly typed. Strongly typed can be understood to mean that a type constructor is always used to create an instance of that type. Scala is also statically typed, which basically means that code gets analysed at compile time to see if the types used match as expected. Code might be rejected before runtime. Scala uses Haskell style type interference, meaning that we don\u0026rsquo;t explicitly need to type our code. The compiler will infer the type for us.\u003c/p\u003e\n\u003cp\u003eWe already have seen examples of this in the above code. In Scala, we do not have to give the type, especially for values. In Python we should just read \u003ca href\u003d\"https://peps.python.org/pep-0484/\"\u003ePEP484\u003c/a\u003e. In Scala, we also should include types for functions and methods, as providing type information makes code easier to read and maintain since types serve as a form of documentation, clarifying the intended use of each value.\u003c/p\u003e\n\u003cp\u003eFinally, types can enhance performance; most compilers use optimisation tools to handle known data types during compilation or runtime.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730367667727_703852975",
+      "id": "paragraph_1730367667727_703852975",
+      "dateCreated": "2024-10-31 10:41:07.728",
+      "dateStarted": "2024-11-04 13:27:52.510",
+      "dateFinished": "2024-11-04 13:27:52.522",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark \n\ncase class Item(name: String, qty: Int, price: Double)\n\nval groceries: List[Item] \u003d List(\n    Item(\"Courgette\", 2, 1.09),\n    Item(\"lentils\", 1, 1.45),\n    Item(\"desert\", 2, 4.0)\n    )\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:27:56.040",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "class Item\nval \u001b[1m\u001b[34mgroceries\u001b[0m: \u001b[1m\u001b[32mList[Item]\u001b[0m \u003d List(Item(Courgette,2,1.09), Item(lentils,1,1.45), Item(desert,2,4.0))\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730376685276_613993980",
+      "id": "paragraph_1730376685276_613993980",
+      "dateCreated": "2024-10-31 13:11:25.276",
+      "dateStarted": "2024-11-04 13:27:56.047",
+      "dateFinished": "2024-11-04 13:27:56.818",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \n\nagain there is very limited difference on how you would code up this in Python\n\n```\nclass Item(NamedTuple):\n    name: str\n    quantity: tuple[int, str]\n    price: float\n\n\ngroceries: list[Item] \u003d [\n    Item(name\u003d\"courgette\", quantity\u003d(1, \"piece\"), price\u003d0.75),\n    Item(name\u003d\"lentiles\", quantity\u003d(150, \"grams\"), price\u003d1.45),\n    Item(name\u003d\"desert\", quantity\u003d(2, \"piece\"), price\u003d4.0),\n]\n```\n\nA case class is what Scala uses for modeling immutable data, a bit like Python uses the NamedTuple to model data. Both are not meant to be regular classes like you would expect in Java, but do have a constructor. \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:27:58.066",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eagain there is very limited difference on how you would code up this in Python\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eclass Item(NamedTuple):\n    name: str\n    quantity: tuple[int, str]\n    price: float\n\n\ngroceries: list[Item] \u003d [\n    Item(name\u003d\u0026quot;courgette\u0026quot;, quantity\u003d(1, \u0026quot;piece\u0026quot;), price\u003d0.75),\n    Item(name\u003d\u0026quot;lentiles\u0026quot;, quantity\u003d(150, \u0026quot;grams\u0026quot;), price\u003d1.45),\n    Item(name\u003d\u0026quot;desert\u0026quot;, quantity\u003d(2, \u0026quot;piece\u0026quot;), price\u003d4.0),\n]\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eA case class is what Scala uses for modeling immutable data, a bit like Python uses the NamedTuple to model data. Both are not meant to be regular classes like you would expect in Java, but do have a constructor.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730380541437_1872281796",
+      "id": "paragraph_1730380541437_1872281796",
+      "dateCreated": "2024-10-31 14:15:41.439",
+      "dateStarted": "2024-11-04 13:27:58.066",
+      "dateFinished": "2024-11-04 13:27:58.078",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\ngroceries(0)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:28:00.227",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres23\u001b[0m: \u001b[1m\u001b[32mItem\u001b[0m \u003d Item(Courgette,2,1.09)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730381474486_53195973",
+      "id": "paragraph_1730381474486_53195973",
+      "dateCreated": "2024-10-31 14:31:14.486",
+      "dateStarted": "2024-11-04 13:28:00.233",
+      "dateFinished": "2024-11-04 13:28:00.489",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n\nLike Python provides a nice repr for the NamedTuple, so Scala provides a nice implementation for toString \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-10-31 14:36:42.310",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eLike Python provides a nice repr for the NamedTuple, so Scala provides a nice implementation for toString\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730381736044_1072569807",
+      "id": "paragraph_1730381736044_1072569807",
+      "dateCreated": "2024-10-31 14:35:36.044",
+      "dateStarted": "2024-10-31 14:36:42.303",
+      "dateFinished": "2024-10-31 14:36:42.321",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\n//the map function returns a list, we call sum on\nval total: Double \u003d groceries.map(item \u003d\u003e item.price).sum\n  \n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:28:03.613",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mtotal\u001b[0m: \u001b[1m\u001b[32mDouble\u001b[0m \u003d 6.54\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730381802303_473778690",
+      "id": "paragraph_1730381802303_473778690",
+      "dateCreated": "2024-10-31 14:36:42.303",
+      "dateStarted": "2024-11-04 13:28:03.619",
+      "dateFinished": "2024-11-04 13:28:04.119",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \nWe can use our grocieries to create a DataFrame\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:28:07.221",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe can use our grocieries to create a DataFrame\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730383898441_723846268",
+      "id": "paragraph_1730383898441_723846268",
+      "dateCreated": "2024-10-31 15:11:38.441",
+      "dateStarted": "2024-11-04 13:28:07.222",
+      "dateFinished": "2024-11-04 13:28:07.229",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\nval df \u003d spark.createDataFrame(groceries)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:28:08.738",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [name: string, qty: int ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730382065174_172938632",
+      "id": "paragraph_1730382065174_172938632",
+      "dateCreated": "2024-10-31 14:41:05.174",
+      "dateStarted": "2024-11-04 13:28:08.742",
+      "dateFinished": "2024-11-04 13:28:10.342",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\ndf.printSchema()\ndf.show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:28:10.042",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- name: string (nullable \u003d true)\n |-- qty: integer (nullable \u003d false)\n |-- price: double (nullable \u003d false)\n\n+---------+---+-----+\n|     name|qty|price|\n+---------+---+-----+\n|Courgette|  2| 1.09|\n|  lentils|  1| 1.45|\n|   desert|  2|  4.0|\n+---------+---+-----+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730383869158_1348067062",
+      "id": "paragraph_1730383869158_1348067062",
+      "dateCreated": "2024-10-31 15:11:09.158",
+      "dateStarted": "2024-11-04 13:28:10.356",
+      "dateFinished": "2024-11-04 13:28:11.182",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval path: String \u003d (\n    \"/media/laurens/DISKJE/ProgrammingProjects/gutenberg_books/\"\n)\nval ppDF \u003d spark.read.text(path + \"1342-0.txt\")",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:28:13.266",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mpath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m \u003d /media/laurens/DISKJE/ProgrammingProjects/gutenberg_books/\nval \u001b[1m\u001b[34mppDF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [value: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730383951582_466944688",
+      "id": "paragraph_1730383951582_466944688",
+      "dateCreated": "2024-10-31 15:12:31.582",
+      "dateStarted": "2024-11-04 13:28:13.270",
+      "dateFinished": "2024-11-04 13:28:14.002",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \n#### Quick inspection tools\n\nThere are a few easy and useful inspection tools for any DataFrame:\n\n1. printSchema which prints the schema of our DataFrame\n2. show which shows us the first 20 rows of our DataFrame\n3. count which counts the rows.\n4. rdd.countApprox which approximates the number of rows in the DataFrame, useful when working with very large DFs.\n5. columns is an attribute of the DataFrame that gives you a list of columns.\n6. dtypes is another attribute that gives you the column name and type being used for that column in the DF.\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:28:17.311",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eQuick inspection tools\u003c/h4\u003e\n\u003cp\u003eThere are a few easy and useful inspection tools for any DataFrame:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eprintSchema which prints the schema of our DataFrame\u003c/li\u003e\n\u003cli\u003eshow which shows us the first 20 rows of our DataFrame\u003c/li\u003e\n\u003cli\u003ecount which counts the rows.\u003c/li\u003e\n\u003cli\u003erdd.countApprox which approximates the number of rows in the DataFrame, useful when working with very large DFs.\u003c/li\u003e\n\u003cli\u003ecolumns is an attribute of the DataFrame that gives you a list of columns.\u003c/li\u003e\n\u003cli\u003edtypes is another attribute that gives you the column name and type being used for that column in the DF.\u003c/li\u003e\n\u003c/ol\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730384629385_1254398360",
+      "id": "paragraph_1730384629385_1254398360",
+      "dateCreated": "2024-10-31 15:23:49.386",
+      "dateStarted": "2024-11-04 13:28:17.311",
+      "dateFinished": "2024-11-04 13:28:17.323",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nppDF.printSchema()\nppDF.show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:28:19.544",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- value: string (nullable \u003d true)\n\n+--------------------+\n|               value|\n+--------------------+\n|The Project Guten...|\n|                    |\n|This eBook is for...|\n|almost no restric...|\n|re-use it under t...|\n|with this eBook o...|\n|                    |\n|                    |\n|Title: Pride and ...|\n|                    |\n| Author: Jane Austen|\n|                    |\n|Posting Date: Aug...|\n|Release Date: Jun...|\n|Last Updated: Mar...|\n|                    |\n|   Language: English|\n|                    |\n|Character set enc...|\n|                    |\n+--------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d39"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730384818814_331183291",
+      "id": "paragraph_1730384818814_331183291",
+      "dateCreated": "2024-10-31 15:26:58.815",
+      "dateStarted": "2024-11-04 13:28:19.547",
+      "dateFinished": "2024-11-04 13:28:20.593",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nppDF.count()\n// pridePredjudiceDF.rdd.countApprox(timeout\u003d5)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:28:25.610",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres27\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m \u003d 13427\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d42"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d43"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730384848924_1932928292",
+      "id": "paragraph_1730384848924_1932928292",
+      "dateCreated": "2024-10-31 15:27:28.925",
+      "dateStarted": "2024-11-04 13:28:25.615",
+      "dateFinished": "2024-11-04 13:28:26.196",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nppDF.columns\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:28:45.681",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres28\u001b[0m: \u001b[1m\u001b[32mArray[String]\u001b[0m \u003d Array(value)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730385133607_1848697623",
+      "id": "paragraph_1730385133607_1848697623",
+      "dateCreated": "2024-10-31 15:32:13.608",
+      "dateStarted": "2024-11-04 13:28:45.685",
+      "dateFinished": "2024-11-04 13:28:45.879",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nppDF.dtypes",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:28:48.432",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres29\u001b[0m: \u001b[1m\u001b[32mArray[(String, String)]\u001b[0m \u003d Array((value,StringType))\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730385177974_1238678623",
+      "id": "paragraph_1730385177974_1238678623",
+      "dateCreated": "2024-10-31 15:32:57.974",
+      "dateStarted": "2024-11-04 13:28:48.436",
+      "dateFinished": "2024-11-04 13:28:48.715",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \n\nagain we can use these spark functions with regular Scala\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 10:18:11.912",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eagain we can use these spark functions with regular Scala\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730385268372_676774535",
+      "id": "paragraph_1730385268372_676774535",
+      "dateCreated": "2024-10-31 15:34:28.372",
+      "dateStarted": "2024-11-01 10:18:11.913",
+      "dateFinished": "2024-11-01 10:18:11.922",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nprintln(s\"the row count of pride_and pred is ${ppDF.count()}\")",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 10:18:15.424",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "the row count of pride_and pred is 13427\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d3"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d4"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730385221351_2131814215",
+      "id": "paragraph_1730385221351_2131814215",
+      "dateCreated": "2024-10-31 15:33:41.351",
+      "dateStarted": "2024-11-01 10:18:15.428",
+      "dateFinished": "2024-11-01 10:18:16.093",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \nselecting columns\n\nSpark\u0027s select is very much equivalent to SQL\u0027s select, but it will return you a dataset. A dataframe in the Scala api is merely an alias for a dataset with rows.  As arguments to `select`, we give a string, a column, or a list. As with PySpark in Scala there are several ways arguments can be presented. \n\n\"columnName\"    // String returns the column not an expression\ncol(columnName) // returns an expression\n$\"columnName\"   // Scala short hand for a named column, also returns an expression\n\nYou will see all three being used, and you can, but there are slight differences under the hood. \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 15:45:12.473",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eselecting columns\u003c/p\u003e\n\u003cp\u003eSpark\u0026rsquo;s select is very much equivalent to SQL\u0026rsquo;s select, but it will return you a dataset. A dataframe in the Scala api is merely an alias for a dataset with rows.  As arguments to \u003ccode\u003eselect\u003c/code\u003e, we give a string, a column, or a list. As with PySpark in Scala there are several ways arguments can be presented.\u003c/p\u003e\n\u003cp\u003e\u0026ldquo;columnName\u0026rdquo;    // String returns the column not an expression\u003cbr /\u003e\ncol(columnName) // returns an expression\u003cbr /\u003e\n$\u0026ldquo;columnName\u0026rdquo;   // Scala short hand for a named column, also returns an expression\u003c/p\u003e\n\u003cp\u003eYou will see all three being used, and you can, but there are slight differences under the hood.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730389808155_67002996",
+      "id": "paragraph_1730389808155_67002996",
+      "dateCreated": "2024-10-31 16:50:08.155",
+      "dateStarted": "2024-11-04 15:45:12.473",
+      "dateFinished": "2024-11-04 15:45:12.606",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval ds \u003d Seq(1, 2, 3).toDS()\nval newDS \u003d ds.select(expr(\"value + 1\"))\nval newerDS \u003d ds.select(col(\"value\") + 2)\nval newerYet \u003d ds.select($\"value\" + 3)\nds.show(3)\nnewDS.show(3)\nnewerDS.show(3)\nnewerYet.show(3)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 15:43:35.307",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+\n|value|\n+-----+\n|    1|\n|    2|\n|    3|\n+-----+\n\n+-----------+\n|(value + 1)|\n+-----------+\n|          2|\n|          3|\n|          4|\n+-----------+\n\n+-----------+\n|(value + 2)|\n+-----------+\n|          3|\n|          4|\n|          5|\n+-----------+\n\n+-----------+\n|(value + 3)|\n+-----------+\n|          4|\n|          5|\n|          6|\n+-----------+\n\nval \u001b[1m\u001b[34mds\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[Int]\u001b[0m \u003d [value: int]\nval \u001b[1m\u001b[34mnewDS\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [(value + 1): int]\nval \u001b[1m\u001b[34mnewerDS\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [(value + 2): int]\nval \u001b[1m\u001b[34mnewerYet\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [(value + 3): int]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730723978955_1686556242",
+      "id": "paragraph_1730723978955_1686556242",
+      "dateCreated": "2024-11-04 13:39:38.955",
+      "dateStarted": "2024-11-04 15:43:35.311",
+      "dateFinished": "2024-11-04 15:43:35.711",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nAs we have a dataframe we can play with it. An added benefit for using Scala and not Python, we do not need to import the function we had to in PySpark, there are no naming conflicts here, these Spark functions are Scala functions\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 15:45:22.475",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAs we have a dataframe we can play with it. An added benefit for using Scala and not Python, we do not need to import the function we had to in PySpark, there are no naming conflicts here, these Spark functions are Scala functions\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730731515297_1547548115",
+      "id": "paragraph_1730731515297_1547548115",
+      "dateCreated": "2024-11-04 15:45:15.297",
+      "dateStarted": "2024-11-04 15:45:22.475",
+      "dateFinished": "2024-11-04 15:45:22.484",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nppDF.select(\"value\").show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:55:28.747",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+\n|               value|\n+--------------------+\n|The Project Guten...|\n|                    |\n|This eBook is for...|\n|almost no restric...|\n|re-use it under t...|\n+--------------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d45"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730724816930_2022441222",
+      "id": "paragraph_1730724816930_2022441222",
+      "dateCreated": "2024-11-04 13:53:36.947",
+      "dateStarted": "2024-11-04 13:55:28.751",
+      "dateFinished": "2024-11-04 13:55:30.203",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\nval lines \u003d ppDF.select(split(ppDF(\"value\"), \" \").alias(\"Lines\"))\nlines.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-04 13:31:29.922",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+\n|               Lines|\n+--------------------+\n|[The, Project, Gu...|\n|                  []|\n|[This, eBook, is,...|\n|[almost, no, rest...|\n|[re-use, it, unde...|\n+--------------------+\nonly showing top 5 rows\n\nval \u001b[1m\u001b[34mlines\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [Lines: array\u003cstring\u003e]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d44"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730385333106_1622952986",
+      "id": "paragraph_1730385333106_1622952986",
+      "dateCreated": "2024-10-31 15:35:33.106",
+      "dateStarted": "2024-11-04 13:31:29.925",
+      "dateFinished": "2024-11-04 13:31:30.562",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nimport org.apache.spark.sql.functions.{col, column, expr}\n\nval words \u003d lines.select(explode(col(\"Lines\")).alias(\"word\"))\nwords.show(10)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 10:21:52.850",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+----------+\n|      word|\n+----------+\n|       The|\n|   Project|\n| Gutenberg|\n|     EBook|\n|        of|\n|     Pride|\n|       and|\n|Prejudice,|\n|        by|\n|      Jane|\n+----------+\nonly showing top 10 rows\n\nimport org.apache.spark.sql.functions.{col, column, expr}\nval \u001b[1m\u001b[34mwords\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [word: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d7"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730385171655_2141142535",
+      "id": "paragraph_1730385171655_2141142535",
+      "dateCreated": "2024-10-31 15:32:51.656",
+      "dateStarted": "2024-11-01 10:21:52.859",
+      "dateFinished": "2024-11-01 10:21:53.427",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval wordsLower \u003d words.select(lower(col(\"word\")).alias(\"word\"))\nwordsLower.show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 10:21:59.077",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+----------+\n|      word|\n+----------+\n|       the|\n|   project|\n| gutenberg|\n|     ebook|\n|        of|\n|     pride|\n|       and|\n|prejudice,|\n|        by|\n|      jane|\n|    austen|\n|          |\n|      this|\n|     ebook|\n|        is|\n|       for|\n|       the|\n|       use|\n|        of|\n|    anyone|\n+----------+\nonly showing top 20 rows\n\nval \u001b[1m\u001b[34mwordsLower\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [word: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d8"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730391240867_258353900",
+      "id": "paragraph_1730391240867_258353900",
+      "dateCreated": "2024-10-31 17:14:00.867",
+      "dateStarted": "2024-11-01 10:21:59.084",
+      "dateFinished": "2024-11-01 10:21:59.669",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval wordsClean \u003d wordsLower.select(regexp_extract(col(\"word\"), \"[a-z]+\", 0).alias(\"word\"))\nwordsClean.show(20)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 10:22:04.048",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+---------+\n|     word|\n+---------+\n|      the|\n|  project|\n|gutenberg|\n|    ebook|\n|       of|\n|    pride|\n|      and|\n|prejudice|\n|       by|\n|     jane|\n|   austen|\n|         |\n|     this|\n|    ebook|\n|       is|\n|      for|\n|      the|\n|      use|\n|       of|\n|   anyone|\n+---------+\nonly showing top 20 rows\n\nval \u001b[1m\u001b[34mwordsClean\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [word: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d9"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730391448719_668482120",
+      "id": "paragraph_1730391448719_668482120",
+      "dateCreated": "2024-10-31 17:17:28.719",
+      "dateStarted": "2024-11-01 10:22:04.055",
+      "dateFinished": "2024-11-01 10:22:04.795",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval finalWords \u003d wordsClean.filter(col(\"word\") \u003d!\u003d \"\")\nfinalWords.show(20)\nfinalWords.count()",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 10:22:15.792",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+---------+\n|     word|\n+---------+\n|      the|\n|  project|\n|gutenberg|\n|    ebook|\n|       of|\n|    pride|\n|      and|\n|prejudice|\n|       by|\n|     jane|\n|   austen|\n|     this|\n|    ebook|\n|       is|\n|      for|\n|      the|\n|      use|\n|       of|\n|   anyone|\n| anywhere|\n+---------+\nonly showing top 20 rows\n\nval \u001b[1m\u001b[34mfinalWords\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [word: string]\nval \u001b[1m\u001b[34mres17\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m \u003d 124448\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d10"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d11"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d12"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730392403982_2040432113",
+      "id": "paragraph_1730392403982_2040432113",
+      "dateCreated": "2024-10-31 17:33:23.982",
+      "dateStarted": "2024-11-01 10:22:15.803",
+      "dateFinished": "2024-11-01 10:22:17.865",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval bigWords \u003d finalWords.filter(length(col(\"word\")) \u003e 11) \nbigWords.count()",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 10:22:23.513",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mbigWords\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [word: string]\nval \u001b[1m\u001b[34mres18\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m \u003d 1352\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d13"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d14"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730392921633_77375662",
+      "id": "paragraph_1730392921633_77375662",
+      "dateCreated": "2024-10-31 17:42:01.634",
+      "dateStarted": "2024-11-01 10:22:23.524",
+      "dateFinished": "2024-11-01 10:22:24.899",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \n\nIt is safe to say that Jane liked her big words\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-10-31 17:51:36.731",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eIt is safe to say that Jane liked her big words\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730393460903_163699874",
+      "id": "paragraph_1730393460903_163699874",
+      "dateCreated": "2024-10-31 17:51:00.903",
+      "dateStarted": "2024-10-31 17:51:36.730",
+      "dateFinished": "2024-10-31 17:51:36.744",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nWe can do something similar to a csv file",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 10:28:36.483",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe can do something similar to a csv file\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730453190739_1791597798",
+      "id": "paragraph_1730453190739_1791597798",
+      "dateCreated": "2024-11-01 10:26:30.740",
+      "dateStarted": "2024-11-01 10:28:36.482",
+      "dateFinished": "2024-11-01 10:28:36.494",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\nval path \u003d \"/media/laurens/DISKJE/ProgrammingProjects/broadcast_logs/\"\n\nval broadcastLogs \u003d spark.read //this is a bit simpler in Python indeed\n    .option(\"sep\", \"|\")\n    .option(\"header\", \"true\")\n    .option(\"inferSchema\", \"true\")\n    .option(\"timestampFormat\", \"yyyy-MM-dd\")\n    .csv(path + \"BroadcastLogs_2018_Q3_M8_sample.CSV\")\n\nbroadcastLogs.show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 11:05:54.985",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------+------------+----------+----------+-------------------+----------------------+----------+---------------+-----------------+----------------+---------------+------------------+--------------+--------------------+------------+----------------+----------------+------------+------------+--------------------+----------------+--------+--------------------+------------------+----------------------+-------------+---------+---------+---------+---------+\n|BroadcastLogID|LogServiceID|   LogDate|SequenceNO|AudienceTargetAgeID|AudienceTargetEthnicID|CategoryID|ClosedCaptionID|CountryOfOriginID|DubDramaCreditID|EthnicProgramID|ProductionSourceID|ProgramClassID|FilmClassificationID|ExhibitionID|        Duration|         EndTime|LogEntryDate|ProductionNO|        ProgramTitle|       StartTime|Subtitle|NetworkAffiliationID|SpecialAttentionID|BroadcastOriginPointID|CompositionID|Producer1|Producer2|Language1|Language2|\n+--------------+------------+----------+----------+-------------------+----------------------+----------+---------------+-----------------+----------------+---------------+------------------+--------------+--------------------+------------+----------------+----------------+------------+------------+--------------------+----------------+--------+--------------------+------------------+----------------------+-------------+---------+---------+---------+---------+\n|    1196192316|        3157|2018-08-01|         1|                  4|                  NULL|        13|              3|                3|            NULL|           NULL|                10|            19|                NULL|           2|02:00:00.0000000|08:00:00.0000000|  2018-08-01|      A39082|   Newlywed and Dead|06:00:00.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|       94|     NULL|\n|    1196192317|        3157|2018-08-01|         2|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|            20|                NULL|        NULL|00:00:30.0000000|06:13:45.0000000|  2018-08-01|        NULL|15-SPECIALTY CHAN...|06:13:15.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192318|        3157|2018-08-01|         3|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:14:00.0000000|  2018-08-01|        NULL|3-PROCTER \u0026 GAMBL...|06:13:45.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192319|        3157|2018-08-01|         4|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:14:15.0000000|  2018-08-01|        NULL|12-CREDIT KARMA-B...|06:14:00.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192320|        3157|2018-08-01|         5|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:14:30.0000000|  2018-08-01|        NULL|3-L\u0027OREAL CANADA-...|06:14:15.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192321|        3157|2018-08-01|         6|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:14:45.0000000|  2018-08-01|        NULL|11-YUM! BRANDS-Ch...|06:14:30.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192322|        3157|2018-08-01|         7|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:30.0000000|06:15:16.0000000|  2018-08-01|        NULL|2-PIER 1 IMPORTS ...|06:14:46.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192323|        3157|2018-08-01|         8|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:15:31.0000000|  2018-08-01|        NULL|3-HAVAS EDGE-Trav...|06:15:16.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192324|        3157|2018-08-01|         9|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:15:46.0000000|  2018-08-01|        NULL|2-AUTOTRADER-Inte...|06:15:31.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192325|        3157|2018-08-01|        10|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:16:01.0000000|  2018-08-01|        NULL|11-SLEEP COUNTRY ...|06:15:46.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192326|        3157|2018-08-01|        11|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:16:16.0000000|  2018-08-01|        NULL|11-GENERAL MILLS ...|06:16:01.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192327|        3157|2018-08-01|        12|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:30.0000000|06:16:46.0000000|  2018-08-01|        NULL|11-PROCTER \u0026 GAMB...|06:16:16.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192328|        3157|2018-08-01|        13|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|            20|                NULL|        NULL|00:00:30.0000000|06:25:56.0000000|  2018-08-01|        NULL|15-SPECIALTY CHAN...|06:25:26.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192329|        3157|2018-08-01|        14|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:26:11.0000000|  2018-08-01|        NULL|11-PROCTER \u0026 GAMB...|06:25:56.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192330|        3157|2018-08-01|        15|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:26:26.0000000|  2018-08-01|        NULL|11-LABATT BREWERI...|06:26:11.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192331|        3157|2018-08-01|        16|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:26:41.0000000|  2018-08-01|        NULL|2-IKEA CANADA LTD...|06:26:26.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192332|        3157|2018-08-01|        17|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:26:57.0000000|  2018-08-01|        NULL|11-WAL-MART CANAD...|06:26:42.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192333|        3157|2018-08-01|        18|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:27:12.0000000|  2018-08-01|        NULL|2-AUTOTRADER-Inte...|06:26:57.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192334|        3157|2018-08-01|        19|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:01:00.0000000|06:28:12.0000000|  2018-08-01|        NULL|12-COMWAVE TELECO...|06:27:12.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n|    1196192335|        3157|2018-08-01|        20|               NULL|                  NULL|      NULL|              1|             NULL|            NULL|           NULL|              NULL|             3|                NULL|        NULL|00:00:15.0000000|06:28:27.0000000|  2018-08-01|        NULL|11-L\u0027OREAL CANADA...|06:28:12.0000000|    NULL|                NULL|              NULL|                  NULL|         NULL|     NULL|     NULL|     NULL|     NULL|\n+--------------+------------+----------+----------+-------------------+----------------------+----------+---------------+-----------------+----------------+---------------+------------------+--------------+--------------------+------------+----------------+----------------+------------+------------+--------------------+----------------+--------+--------------------+------------------+----------------------+-------------+---------+---------+---------+---------+\nonly showing top 20 rows\n\nval \u001b[1m\u001b[34mpath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m \u003d /media/laurens/DISKJE/ProgrammingProjects/broadcast_logs/\nval \u001b[1m\u001b[34mbroadcastLogs\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [BroadcastLogID: int, LogServiceID: int ... 28 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d20"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d21"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d22"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730453316481_126550570",
+      "id": "paragraph_1730453316481_126550570",
+      "dateCreated": "2024-11-01 10:28:36.481",
+      "dateStarted": "2024-11-01 11:01:28.193",
+      "dateFinished": "2024-11-01 11:01:33.056",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nbroadcastLogs.select(\"BroadcastLogID\", \"LogServiceID\", \"LogDate\", \"Duration\").show(\n    \n)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 11:12:52.862",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------+------------+----------+----------------+\n|BroadcastLogID|LogServiceID|   LogDate|        Duration|\n+--------------+------------+----------+----------------+\n|    1196192316|        3157|2018-08-01|02:00:00.0000000|\n|    1196192317|        3157|2018-08-01|00:00:30.0000000|\n|    1196192318|        3157|2018-08-01|00:00:15.0000000|\n|    1196192319|        3157|2018-08-01|00:00:15.0000000|\n|    1196192320|        3157|2018-08-01|00:00:15.0000000|\n|    1196192321|        3157|2018-08-01|00:00:15.0000000|\n|    1196192322|        3157|2018-08-01|00:00:30.0000000|\n|    1196192323|        3157|2018-08-01|00:00:15.0000000|\n|    1196192324|        3157|2018-08-01|00:00:15.0000000|\n|    1196192325|        3157|2018-08-01|00:00:15.0000000|\n|    1196192326|        3157|2018-08-01|00:00:15.0000000|\n|    1196192327|        3157|2018-08-01|00:00:30.0000000|\n|    1196192328|        3157|2018-08-01|00:00:30.0000000|\n|    1196192329|        3157|2018-08-01|00:00:15.0000000|\n|    1196192330|        3157|2018-08-01|00:00:15.0000000|\n|    1196192331|        3157|2018-08-01|00:00:15.0000000|\n|    1196192332|        3157|2018-08-01|00:00:15.0000000|\n|    1196192333|        3157|2018-08-01|00:00:15.0000000|\n|    1196192334|        3157|2018-08-01|00:01:00.0000000|\n|    1196192335|        3157|2018-08-01|00:00:15.0000000|\n+--------------+------------+----------+----------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d24"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730453425458_682475234",
+      "id": "paragraph_1730453425458_682475234",
+      "dateCreated": "2024-11-01 10:30:25.458",
+      "dateStarted": "2024-11-01 11:12:52.873",
+      "dateFinished": "2024-11-01 11:12:53.562",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nbroadcastLogs.select(\n    col(\"Duration\"),\n    ( col(\"Duration\").substr(1,2).cast(\"int\")*3600\n    + col(\"Duration\").substr(4,2).cast(\"int\")*60\n    + col(\"Duration\").substr(7,2).cast(\"int\")).alias(\"duration in seconds\")\n    ).distinct().show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 11:14:41.949",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+----------------+-------------------+\n|        Duration|duration in seconds|\n+----------------+-------------------+\n|01:59:30.0000000|               7170|\n|00:31:00.0000000|               1860|\n|00:28:08.0000000|               1688|\n|00:10:30.0000000|                630|\n|00:32:00.0000000|               1920|\n|00:30:00.0000000|               1800|\n|00:00:35.0000000|                 35|\n|00:01:39.0000000|                 99|\n|00:55:03.0000000|               3303|\n|00:30:03.0000000|               1803|\n|00:29:50.0000000|               1790|\n|00:10:47.0000000|                647|\n|00:04:00.0000000|                240|\n|00:03:47.0000000|                227|\n|00:37:24.0000000|               2244|\n|00:51:09.0000000|               3069|\n|00:24:11.0000000|               1451|\n|00:01:40.0000000|                100|\n|00:44:58.0000000|               2698|\n|00:19:06.0000000|               1146|\n+----------------+-------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d25"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d26"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730455601090_958544761",
+      "id": "paragraph_1730455601090_958544761",
+      "dateCreated": "2024-11-01 11:06:41.090",
+      "dateStarted": "2024-11-01 11:14:41.961",
+      "dateFinished": "2024-11-01 11:14:45.512",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nbroadcastLogs.columns",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 13:23:38.998",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres35\u001b[0m: \u001b[1m\u001b[32mArray[String]\u001b[0m \u003d Array(BroadcastLogID, LogServiceID, LogDate, SequenceNO, AudienceTargetAgeID, AudienceTargetEthnicID, CategoryID, ClosedCaptionID, CountryOfOriginID, DubDramaCreditID, EthnicProgramID, ProductionSourceID, ProgramClassID, FilmClassificationID, ExhibitionID, Duration, EndTime, LogEntryDate, ProductionNO, ProgramTitle, StartTime, Subtitle, NetworkAffiliationID, SpecialAttentionID, BroadcastOriginPointID, CompositionID, Producer1, Producer2, Language1, Language2)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730456020345_1854451785",
+      "id": "paragraph_1730456020345_1854451785",
+      "dateCreated": "2024-11-01 11:13:40.346",
+      "dateStarted": "2024-11-01 13:23:39.011",
+      "dateFinished": "2024-11-01 13:23:39.541",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \nAs you can see we have quite a few ID columns, we should drop those\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 13:24:17.971",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAs you can see we have quite a few ID columns, we should drop those\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730456459105_177355797",
+      "id": "paragraph_1730456459105_177355797",
+      "dateCreated": "2024-11-01 11:20:59.206",
+      "dateStarted": "2024-11-01 13:24:17.970",
+      "dateFinished": "2024-11-01 13:24:18.317",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval broadcastLogsCleanColumnNames \u003d broadcastLogs.columns.filter(_.takeRight(2) !\u003d \"ID\")\n/*\n   : -* is \"splat operator\" or \"sequence wildcard.\" allows us to unpack a list and feed its elements as arguments to select \n   equivalent Python: *[x for x in broadcast_logs.columns if x[-2:] !\u003d \"ID\"]\n*/\nval broadcastLogsClean \u003d broadcastLogs.select(broadcastLogsCleanColumnNames.map(col): _*)\nbroadcastLogsClean.printSchema()\nbroadcastLogsClean.show(5)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 13:47:37.186",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[33mwarning: \u001b[0m1 deprecation (since 2.13.0); for details, enable `:setting -deprecation` or `:replay -deprecation`\nroot\n |-- LogDate: date (nullable \u003d true)\n |-- SequenceNO: integer (nullable \u003d true)\n |-- Duration: string (nullable \u003d true)\n |-- EndTime: string (nullable \u003d true)\n |-- LogEntryDate: date (nullable \u003d true)\n |-- ProductionNO: string (nullable \u003d true)\n |-- ProgramTitle: string (nullable \u003d true)\n |-- StartTime: string (nullable \u003d true)\n |-- Subtitle: string (nullable \u003d true)\n |-- Producer1: string (nullable \u003d true)\n |-- Producer2: string (nullable \u003d true)\n |-- Language1: integer (nullable \u003d true)\n |-- Language2: integer (nullable \u003d true)\n\n+----------+----------+----------------+----------------+------------+------------+--------------------+----------------+--------+---------+---------+---------+---------+\n|   LogDate|SequenceNO|        Duration|         EndTime|LogEntryDate|ProductionNO|        ProgramTitle|       StartTime|Subtitle|Producer1|Producer2|Language1|Language2|\n+----------+----------+----------------+----------------+------------+------------+--------------------+----------------+--------+---------+---------+---------+---------+\n|2018-08-01|         1|02:00:00.0000000|08:00:00.0000000|  2018-08-01|      A39082|   Newlywed and Dead|06:00:00.0000000|    NULL|     NULL|     NULL|       94|     NULL|\n|2018-08-01|         2|00:00:30.0000000|06:13:45.0000000|  2018-08-01|        NULL|15-SPECIALTY CHAN...|06:13:15.0000000|    NULL|     NULL|     NULL|     NULL|     NULL|\n|2018-08-01|         3|00:00:15.0000000|06:14:00.0000000|  2018-08-01|        NULL|3-PROCTER \u0026 GAMBL...|06:13:45.0000000|    NULL|     NULL|     NULL|     NULL|     NULL|\n|2018-08-01|         4|00:00:15.0000000|06:14:15.0000000|  2018-08-01|        NULL|12-CREDIT KARMA-B...|06:14:00.0000000|    NULL|     NULL|     NULL|     NULL|     NULL|\n|2018-08-01|         5|00:00:15.0000000|06:14:30.0000000|  2018-08-01|        NULL|3-L\u0027OREAL CANADA-...|06:14:15.0000000|    NULL|     NULL|     NULL|     NULL|     NULL|\n+----------+----------+----------------+----------------+------------+------------+--------------------+----------------+--------+---------+---------+---------+---------+\nonly showing top 5 rows\n\nval \u001b[1m\u001b[34mbroadcastLogsCleanColumnNames\u001b[0m: \u001b[1m\u001b[32mArray[String]\u001b[0m \u003d Array(LogDate, SequenceNO, Duration, EndTime, LogEntryDate, ProductionNO, ProgramTitle, StartTime, Subtitle, Producer1, Producer2, Language1, Language2)\nval \u001b[1m\u001b[34mbroadcastLogsClean\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [LogDate: date, SequenceNO: int ... 11 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d31"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730463857961_25856995",
+      "id": "paragraph_1730463857961_25856995",
+      "dateCreated": "2024-11-01 13:24:17.964",
+      "dateStarted": "2024-11-01 13:42:12.371",
+      "dateFinished": "2024-11-01 13:42:12.902",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nOK lets add a column to our new clean broadcast logs\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 13:51:39.063",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eOK lets add a column to our new clean broadcast logs\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730464207310_452860227",
+      "id": "paragraph_1730464207310_452860227",
+      "dateCreated": "2024-11-01 13:30:07.311",
+      "dateStarted": "2024-11-01 13:51:39.059",
+      "dateFinished": "2024-11-01 13:51:39.087",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval finalBroadcastLogs \u003d broadcastLogsClean.withColumn(\n    colName\u003d\"Duration in seconds\",\n    col\u003d ( col(\"Duration\").substr(1,2).cast(\"int\")*3600\n    + col(\"Duration\").substr(4,2).cast(\"int\")*60\n    + col(\"Duration\").substr(7,2).cast(\"int\")))\n    \nfinalBroadcastLogs.show(5)\nfinalBroadcastLogs.select(col(\"Duration in seconds\")).describe().show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 14:00:36.489",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+----------+----------+----------------+----------------+------------+------------+--------------------+----------------+--------+---------+---------+---------+---------+-------------------+\n|   LogDate|SequenceNO|        Duration|         EndTime|LogEntryDate|ProductionNO|        ProgramTitle|       StartTime|Subtitle|Producer1|Producer2|Language1|Language2|Duration in seconds|\n+----------+----------+----------------+----------------+------------+------------+--------------------+----------------+--------+---------+---------+---------+---------+-------------------+\n|2018-08-01|         1|02:00:00.0000000|08:00:00.0000000|  2018-08-01|      A39082|   Newlywed and Dead|06:00:00.0000000|    NULL|     NULL|     NULL|       94|     NULL|               7200|\n|2018-08-01|         2|00:00:30.0000000|06:13:45.0000000|  2018-08-01|        NULL|15-SPECIALTY CHAN...|06:13:15.0000000|    NULL|     NULL|     NULL|     NULL|     NULL|                 30|\n|2018-08-01|         3|00:00:15.0000000|06:14:00.0000000|  2018-08-01|        NULL|3-PROCTER \u0026 GAMBL...|06:13:45.0000000|    NULL|     NULL|     NULL|     NULL|     NULL|                 15|\n|2018-08-01|         4|00:00:15.0000000|06:14:15.0000000|  2018-08-01|        NULL|12-CREDIT KARMA-B...|06:14:00.0000000|    NULL|     NULL|     NULL|     NULL|     NULL|                 15|\n|2018-08-01|         5|00:00:15.0000000|06:14:30.0000000|  2018-08-01|        NULL|3-L\u0027OREAL CANADA-...|06:14:15.0000000|    NULL|     NULL|     NULL|     NULL|     NULL|                 15|\n+----------+----------+----------------+----------------+------------+------------+--------------------+----------------+--------+---------+---------+---------+---------+-------------------+\nonly showing top 5 rows\n\n+-------+-------------------+\n|summary|Duration in seconds|\n+-------+-------------------+\n|  count|             236724|\n|   mean| 124.30587942076004|\n| stddev|  573.7742807594921|\n|    min|                  1|\n|    max|              23409|\n+-------+-------------------+\n\nval \u001b[1m\u001b[34mfinalBroadcastLogs\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [LogDate: date, SequenceNO: int ... 12 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d33"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d34"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d35"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730465499058_792017337",
+      "id": "paragraph_1730465499058_792017337",
+      "dateCreated": "2024-11-01 13:51:39.061",
+      "dateStarted": "2024-11-01 14:00:36.493",
+      "dateFinished": "2024-11-01 14:00:39.186",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nfinalBroadcastLogs.select(col(\"Duration in seconds\")).summary().show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 14:01:19.450",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-------------------+\n|summary|Duration in seconds|\n+-------+-------------------+\n|  count|             236724|\n|   mean| 124.30587942076004|\n| stddev|  573.7742807594921|\n|    min|                  1|\n|    25%|                 15|\n|    50%|                 15|\n|    75%|                 30|\n|    max|              23409|\n+-------+-------------------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d36"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d37"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730465892612_108387663",
+      "id": "paragraph_1730465892612_108387663",
+      "dateCreated": "2024-11-01 13:58:12.613",
+      "dateStarted": "2024-11-01 14:01:19.479",
+      "dateFinished": "2024-11-01 14:01:23.105",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \n#### Naming functions, classes and variables\nWe have discussed typing; we should also discuss naming, as this is also an important part of proper coding. Like Python, Scala has a [style guide](https://docs.scala-lang.org/style/). Of course there are code formatters and Lintners in Scala too, Scalafmt for one. Unfortunately, you can\u0027t use Scalafmt in Zeppelin. You could write your code in an IDE like IntelliJ or Visual Studio and then go Zeppelin. Or you can have Chat do it for you. In any case for naming methods, variables, etc., there are a few things to remember:\n\n1. Use nouns, verbs, and adjectives. Verbs should indicate an action like `calculate()` or `print()`. Nouns describe a return value of the function or describe the variable meaningfully, e.g., `name()`, `user`. Adjectives add specificity to a name, for instance, `totalPrice()`. Mixing nouns, verbs, and adjectives together builds descriptive names like `calculateTotalPrice()`.\n2. Avoid ambiguity; do not use generic terms such as `process` or `data`. Names with multiple meanings, e.g., check, file, object. Finally, do not use abbreviations unless they are widely known.\n\nEveryone who writes code has used the variable `x`. I am not an exception, but keeping in mind that code is read 10 times more than it is written, we should avoid it if at all possible.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 14:24:47.737",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eNaming functions, classes and variables\u003c/h4\u003e\n\u003cp\u003eWe have discussed typing; we should also discuss naming, as this is also an important part of proper coding. Like Python, Scala has a \u003ca href\u003d\"https://docs.scala-lang.org/style/\"\u003estyle guide\u003c/a\u003e. Of course there are code formatters and Lintners in Scala too, Scalafmt for one. Unfortunately, you can\u0026rsquo;t use Scalafmt in Zeppelin. You could write your code in an IDE like IntelliJ or Visual Studio and then go Zeppelin. Or you can have Chat do it for you. In any case for naming methods, variables, etc., there are a few things to remember:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eUse nouns, verbs, and adjectives. Verbs should indicate an action like \u003ccode\u003ecalculate()\u003c/code\u003e or \u003ccode\u003eprint()\u003c/code\u003e. Nouns describe a return value of the function or describe the variable meaningfully, e.g., \u003ccode\u003ename()\u003c/code\u003e, \u003ccode\u003euser\u003c/code\u003e. Adjectives add specificity to a name, for instance, \u003ccode\u003etotalPrice()\u003c/code\u003e. Mixing nouns, verbs, and adjectives together builds descriptive names like \u003ccode\u003ecalculateTotalPrice()\u003c/code\u003e.\u003c/li\u003e\n\u003cli\u003eAvoid ambiguity; do not use generic terms such as \u003ccode\u003eprocess\u003c/code\u003e or \u003ccode\u003edata\u003c/code\u003e. Names with multiple meanings, e.g., check, file, object. Finally, do not use abbreviations unless they are widely known.\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003eEveryone who writes code has used the variable \u003ccode\u003ex\u003c/code\u003e. I am not an exception, but keeping in mind that code is read 10 times more than it is written, we should avoid it if at all possible.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730466079479_657537017",
+      "id": "paragraph_1730466079479_657537017",
+      "dateCreated": "2024-11-01 14:01:19.479",
+      "dateStarted": "2024-11-01 14:24:47.737",
+      "dateFinished": "2024-11-01 14:24:47.763",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nAgain this is the same introductionary notebook (well nearly) just written in Scala not Python.  ",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 14:24:53.992",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAgain this is the same introductionary notebook (well nearly) just written in Scala not Python.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730466832825_1180404175",
+      "id": "paragraph_1730466832825_1180404175",
+      "dateCreated": "2024-11-01 14:13:52.826",
+      "dateStarted": "2024-11-01 14:24:53.990",
+      "dateFinished": "2024-11-01 14:24:54.010",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-01 14:24:53.988",
+      "progress": 0,
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730467493987_432178398",
+      "id": "paragraph_1730467493987_432178398",
+      "dateCreated": "2024-11-01 14:24:53.988",
+      "status": "READY"
+    }
+  ],
+  "name": "IntroductionToScalaSpark",
+  "id": "2KE76614Y",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.11.2",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}

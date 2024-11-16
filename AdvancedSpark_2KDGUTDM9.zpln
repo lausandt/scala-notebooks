@@ -1,0 +1,1492 @@
+{
+  "paragraphs": [
+    {
+      "text": "%spark\nimport org.apache.spark.sql.DataFrame\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 16:34:00.631",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731592087349_1326653874",
+      "id": "paragraph_1731592087349_1326653874",
+      "dateCreated": "2024-11-14 14:48:07.349",
+      "dateStarted": "2024-11-14 16:34:00.665",
+      "dateFinished": "2024-11-14 16:34:38.325",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## Advanced Spark SQL operations with Scala\nThis notebook covers advanced Spark, SQL, and Scala features. Topics this notebook covers are:\n\n1. Functional programming in Scala. \n2. Blending SQL with Spark Scala methods. There are a few Spark Scala functions that accept SQL expressions.\n3. Caching in Spark, or how to improve the speed at which we access frequently requested data.\n4. Windows functions, also known as analytical functions, allow you to use the value from one or more rows to return a value for each row. ",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:26:44.321",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eAdvanced Spark SQL operations with Scala\u003c/h2\u003e\n\u003cp\u003eThis notebook covers advanced Spark, SQL, and Scala features. Topics this notebook covers are:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eFunctional programming in Scala.\u003c/li\u003e\n\u003cli\u003eBlending SQL with Spark Scala methods. There are a few Spark Scala functions that accept SQL expressions.\u003c/li\u003e\n\u003cli\u003eCaching in Spark, or how to improve the speed at which we access frequently requested data.\u003c/li\u003e\n\u003cli\u003eWindows functions, also known as analytical functions, allow you to use the value from one or more rows to return a value for each row.\u003c/li\u003e\n\u003c/ol\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731412003043_345433963",
+      "id": "paragraph_1731412003043_345433963",
+      "dateCreated": "2024-11-12 12:46:43.044",
+      "dateStarted": "2024-11-14 11:26:44.326",
+      "dateFinished": "2024-11-14 11:26:48.003",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark \nval q1 \u003d spark.read\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .csv(\"/media/laurens/DISKJE/Backblaze/DriveStatsQ1/\")\n\nval q2 \u003d spark.read\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .csv(\"/media/laurens/DISKJE/Backblaze/DriveStatsQ2/\")\n\nval q3 \u003d spark.read\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .csv(\"/media/laurens/DISKJE/Backblaze/DriveStatsQ4/\")\n  \nval q4 \u003d spark.read\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .csv(\"/media/laurens/DISKJE/Backblaze/DriveStatsQ4/\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-12 12:59:25.564",
+      "progress": 93,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mq1\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [date: date, serial_number: string ... 127 more fields]\nval \u001b[1m\u001b[34mq2\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [date: string, serial_number: string ... 127 more fields]\nval \u001b[1m\u001b[34mq3\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [date: date, serial_number: string ... 129 more fields]\nval \u001b[1m\u001b[34mq4\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [date: date, serial_number: string ... 129 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d0"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d1"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d2"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d3"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d4"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d5"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d6"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d7"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d8"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d9"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d10"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d11"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731412759551_1650437415",
+      "id": "paragraph_1731412759551_1650437415",
+      "dateCreated": "2024-11-12 12:59:19.552",
+      "dateStarted": "2024-11-12 12:59:25.572",
+      "dateFinished": "2024-11-12 13:09:47.179",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### Functional programming with Scala\n[Scala](https://docs.scala-lang.org/scala3/book/fp-what-is-fp.html) defines functional programming as: Functional programming is a programming paradigm where programs are constructed by applying and composing functions. It is a declarative programming paradigm in which function definitions are trees of expressions that each return a value, rather than a sequence of imperative statements which change the state of the program.\n\nThis might say a lot or very little depending how familair you are with functional programming. When I went to university and first got introduced to Scheme and Haskell it helped me enormously to consider functional programming as programming with lists. This is not strange consider [Lisp](https://en.wikipedia.org/wiki/Lisp_(programming_language)) the original functional programming language, Lisp stands for list processing. Functional languages usually have a large number of built-in functions to manipulate lists. Scala has a host of these functions in the [IterableOnceOps](https://www.scala-lang.org/api/3.5.2/scala/collection/IterableOnceOps.html) and [ArrayOps](https://www.scala-lang.org/api/3.5.2/scala/collection/ArrayOps.html) libraries. The difference being that the latter works on indexed sequences and the former on more iterables. \n\nFunctional programming is also about programming with abstractions. We could dive very deep into cocepts such as functors (I have already used a functor in these notebook, Scala\u0027s option is a functor) and monads, but I think if you are new to this type of programming that being able to generalize three types of function to process arrays and iterables is all that is needed. You need to know; `filter`, `map`, `fold`. \n\nUsing these three we can do exactly the same as we did with the Backblaze data, but using functional programming instead of imperative. Let me just show you filter in Spark also aliased as where. \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:29:34.799",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eFunctional programming with Scala\u003c/h4\u003e\n\u003cp\u003e\u003ca href\u003d\"https://docs.scala-lang.org/scala3/book/fp-what-is-fp.html\"\u003eScala\u003c/a\u003e defines functional programming as: Functional programming is a programming paradigm where programs are constructed by applying and composing functions. It is a declarative programming paradigm in which function definitions are trees of expressions that each return a value, rather than a sequence of imperative statements which change the state of the program.\u003c/p\u003e\n\u003cp\u003eThis might say a lot or very little depending how familair you are with functional programming. When I went to university and first got introduced to Scheme and Haskell it helped me enormously to consider functional programming as programming with lists. This is not strange consider \u003ca href\u003d\"https://en.wikipedia.org/wiki/Lisp_(programming_language)\"\u003eLisp\u003c/a\u003e the original functional programming language, Lisp stands for list processing. Functional languages usually have a large number of built-in functions to manipulate lists. Scala has a host of these functions in the \u003ca href\u003d\"https://www.scala-lang.org/api/3.5.2/scala/collection/IterableOnceOps.html\"\u003eIterableOnceOps\u003c/a\u003e and \u003ca href\u003d\"https://www.scala-lang.org/api/3.5.2/scala/collection/ArrayOps.html\"\u003eArrayOps\u003c/a\u003e libraries. The difference being that the latter works on indexed sequences and the former on more iterables.\u003c/p\u003e\n\u003cp\u003eFunctional programming is also about programming with abstractions. We could dive very deep into cocepts such as functors (I have already used a functor in these notebook, Scala\u0026rsquo;s option is a functor) and monads, but I think if you are new to this type of programming that being able to generalize three types of function to process arrays and iterables is all that is needed. You need to know; \u003ccode\u003efilter\u003c/code\u003e, \u003ccode\u003emap\u003c/code\u003e, \u003ccode\u003efold\u003c/code\u003e.\u003c/p\u003e\n\u003cp\u003eUsing these three we can do exactly the same as we did with the Backblaze data, but using functional programming instead of imperative. Let me just show you filter in Spark also aliased as where.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731412765567_1538966256",
+      "id": "paragraph_1731412765567_1538966256",
+      "dateCreated": "2024-11-12 12:59:25.567",
+      "dateStarted": "2024-11-14 11:29:34.807",
+      "dateFinished": "2024-11-14 11:29:34.833",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval example \u003d (1 to 50 by 3).toList\nexample.filter(_ % 2 \u003d\u003d 0)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:29:39.799",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mexample\u001b[0m: \u001b[1m\u001b[32mList[Int]\u001b[0m \u003d List(1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49)\nval \u001b[1m\u001b[34mres1\u001b[0m: \u001b[1m\u001b[32mList[Int]\u001b[0m \u003d List(4, 10, 16, 22, 28, 34, 40, 46)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731413905273_247012286",
+      "id": "paragraph_1731413905273_247012286",
+      "dateCreated": "2024-11-12 13:18:25.280",
+      "dateStarted": "2024-11-14 11:29:39.806",
+      "dateFinished": "2024-11-14 11:30:14.088",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nIn the aforementioned libraries you will find quite a few specialised filter functions, below are a few of them, just to give you a taste.\nAll of these functions are available in Spark. ",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:31:14.912",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eIn the aforementioned libraries you will find quite a few specialised filter functions, below are a few of them, just to give you a taste.\u003cbr /\u003e\nAll of these functions are available in Spark.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731413969037_1731547080",
+      "id": "paragraph_1731413969037_1731547080",
+      "dateCreated": "2024-11-12 13:19:29.037",
+      "dateStarted": "2024-11-14 11:31:14.916",
+      "dateFinished": "2024-11-14 11:31:14.927",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nexample.takeWhile(_ \u003c 18)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:31:18.566",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres2\u001b[0m: \u001b[1m\u001b[32mList[Int]\u001b[0m \u003d List(1, 4, 7, 10, 13, 16)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731414013313_808877237",
+      "id": "paragraph_1731414013313_808877237",
+      "dateCreated": "2024-11-12 13:20:13.313",
+      "dateStarted": "2024-11-14 11:31:18.572",
+      "dateFinished": "2024-11-14 11:31:18.980",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nexample.dropWhile(_ \u003c 18)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:31:27.030",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres3\u001b[0m: \u001b[1m\u001b[32mList[Int]\u001b[0m \u003d List(19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731414301137_785497736",
+      "id": "paragraph_1731414301137_785497736",
+      "dateCreated": "2024-11-12 13:25:01.140",
+      "dateStarted": "2024-11-14 11:31:27.041",
+      "dateFinished": "2024-11-14 11:31:27.408",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nexample.tail\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:31:29.998",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres4\u001b[0m: \u001b[1m\u001b[32mList[Int]\u001b[0m \u003d List(4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731414326891_7990911",
+      "id": "paragraph_1731414326891_7990911",
+      "dateCreated": "2024-11-12 13:25:26.891",
+      "dateStarted": "2024-11-14 11:31:30.003",
+      "dateFinished": "2024-11-14 11:31:30.415",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nexample.takeRight(3)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:31:32.427",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres5\u001b[0m: \u001b[1m\u001b[32mList[Int]\u001b[0m \u003d List(43, 46, 49)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731414528415_675274415",
+      "id": "paragraph_1731414528415_675274415",
+      "dateCreated": "2024-11-12 13:28:48.416",
+      "dateStarted": "2024-11-14 11:31:32.434",
+      "dateFinished": "2024-11-14 11:31:32.818",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### filter, map and fold\nAll of the above function filters a list to contain only those elements that meet some predicate. We can group all these functions together. We can also group together map functions and fold functions. With these type of function we can look again how we create a large data frame from the backblaze data, but now really using the power of Scala and functional programming. In the above code I loaded the CSV files as I did in the previous notebook, that is a lot of repetition. Let\u0027s do that somewhat smarter\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-13 11:26:29.700",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003efilter, map and fold\u003c/h4\u003e\n\u003cp\u003eAll of the above function filters a list to contain only those elements that meet some predicate. We can group all these functions together. We can also group together map functions and fold functions. With these type of function we can look again how we create a large data frame from the backblaze data, but now really using the power of Scala and functional programming. In the above code I loaded the CSV files as I did in the previous notebook, that is a lot of repetition. Let\u0026rsquo;s do that somewhat smarter\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731414751517_777008589",
+      "id": "paragraph_1731414751517_777008589",
+      "dateCreated": "2024-11-12 13:32:31.517",
+      "dateStarted": "2024-11-13 11:26:29.701",
+      "dateFinished": "2024-11-13 11:26:29.719",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval path \u003d \"/media/laurens/DISKJE/Backblaze/\"\n\nval quarters \u003d List(\n    \"DriveStatsQ1\", \n    \"DriveStatsQ2\", \n    \"DriveStatsQ3\",\n    \"DriveStatsQ4\")\n    \nval data \u003d for {\n    q \u003c- quarters\n} yield spark.read\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"false\")\n  .csv(path+q)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:31:56.584",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mpath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m \u003d /media/laurens/DISKJE/Backblaze/\nval \u001b[1m\u001b[34mquarters\u001b[0m: \u001b[1m\u001b[32mList[String]\u001b[0m \u003d List(DriveStatsQ1, DriveStatsQ2, DriveStatsQ3, DriveStatsQ4)\nval \u001b[1m\u001b[34mdata\u001b[0m: \u001b[1m\u001b[32mList[org.apache.spark.sql.DataFrame]\u001b[0m \u003d List([date: string, serial_number: string ... 127 more fields], [date: string, serial_number: string ... 127 more fields], [date: string, serial_number: string ... 127 more fields], [date: string, serial_number: string ... 129 more fields])\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d0"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d1"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d2"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d3"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d4"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d5"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d6"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d7"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731415015422_947288247",
+      "id": "paragraph_1731415015422_947288247",
+      "dateCreated": "2024-11-12 13:36:55.422",
+      "dateStarted": "2024-11-14 11:31:56.594",
+      "dateFinished": "2024-11-14 11:32:14.537",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nPreviously, we checked the length of the columns and added the extra columns of Q3 and Q4 to the others. \nThis is an option, but inspecting our CSV files in the previous notebook showed us that added information is really of little interest to our investigation, so let us just keep the columns all quarters have in common.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:32:42.352",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003ePreviously, we checked the length of the columns and added the extra columns of Q3 and Q4 to the others.\u003cbr /\u003e\nThis is an option, but inspecting our CSV files in the previous notebook showed us that added information is really of little interest to our investigation, so let us just keep the columns all quarters have in common.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731495123634_1392766261",
+      "id": "paragraph_1731495123634_1392766261",
+      "dateCreated": "2024-11-13 11:52:03.640",
+      "dateStarted": "2024-11-14 11:32:42.352",
+      "dateFinished": "2024-11-14 11:32:42.368",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval commonColumns \u003d (for {\n    df \u003c- data\n} yield (df.columns).toSet).reduce( _ \u0026 _)\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:32:47.058",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mcommonColumns\u001b[0m: \u001b[1m\u001b[32mscala.collection.immutable.Set[String]\u001b[0m \u003d HashSet(smart_13_raw, smart_224_normalized, smart_174_normalized, failure, smart_223_raw, smart_222_raw, smart_13_normalized, smart_187_raw, smart_195_normalized, smart_195_raw, smart_12_raw, smart_182_normalized, smart_194_normalized, smart_190_normalized, smart_1_normalized, smart_193_normalized, model, smart_251_normalized, smart_235_raw, smart_3_normalized, smart_251_raw, smart_225_raw, smart_240_raw, smart_179_normalized, smart_1_raw, smart_252_raw, smart_15_normalized, smart_189_normalized, smart_223_normalized, smart_12_normalized, smart_240_normalized, smart_191_raw, smart_254_raw, smart_168_raw, smart_241_raw, smart_242_normalized, smart_8_normalized, smart_183_raw, smart_201_normalized, smart...\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731416283433_586583435",
+      "id": "paragraph_1731416283433_586583435",
+      "dateCreated": "2024-11-12 13:58:03.433",
+      "dateStarted": "2024-11-14 11:32:47.064",
+      "dateFinished": "2024-11-14 11:32:47.532",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \n#### Fold vs. reduce\nI use reduce here but I could use `fold`, `foldLeft`, `foldRight` as well. The code would be extremely similar, a fold needs a seed value. If you are like me you probably would want to know if there is a difference and when to use which function. First I should not presume you know what a fold function does, the [wiki page](https://en.wikipedia.org/wiki/Fold_(higher-order_function)) is particulary clear so I will refer you to that. Pay attention to the difference between the right and left folds. As the JVM knows no optimization for tail recursion, and right folds can lead to stack overflow in Scala you should prefer foldLeft. In Haskell for instance you would prefer a right fold as this is more natural to recombine to a new result. The fold function in Scala is an alias for the foldLeft function. You can use reduce when you know the collection you fold over isn\u0027t empty. ",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:34:17.603",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eFold vs. reduce\u003c/h4\u003e\n\u003cp\u003eI use reduce here but I could use \u003ccode\u003efold\u003c/code\u003e, \u003ccode\u003efoldLeft\u003c/code\u003e, \u003ccode\u003efoldRight\u003c/code\u003e as well. The code would be extremely similar, a fold needs a seed value. If you are like me you probably would want to know if there is a difference and when to use which function. First I should not presume you know what a fold function does, the \u003ca href\u003d\"https://en.wikipedia.org/wiki/Fold_(higher-order_function)\"\u003ewiki page\u003c/a\u003e is particulary clear so I will refer you to that. Pay attention to the difference between the right and left folds. As the JVM knows no optimization for tail recursion, and right folds can lead to stack overflow in Scala you should prefer foldLeft. In Haskell for instance you would prefer a right fold as this is more natural to recombine to a new result. The fold function in Scala is an alias for the foldLeft function. You can use reduce when you know the collection you fold over isn\u0026rsquo;t empty.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731427743080_1287601096",
+      "id": "paragraph_1731427743080_1287601096",
+      "dateCreated": "2024-11-12 17:09:03.082",
+      "dateStarted": "2024-11-14 11:34:17.602",
+      "dateFinished": "2024-11-14 11:34:17.615",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval foldColumns \u003d (for {\n    df \u003c- data\n} yield df.columns.toSet).foldLeft(data.head.columns.toSet)(_ \u0026 _) // the seed value is the column list of the first dataframe cast to a set\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:34:31.757",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mfoldColumns\u001b[0m: \u001b[1m\u001b[32mscala.collection.immutable.Set[String]\u001b[0m \u003d HashSet(smart_13_raw, smart_224_normalized, smart_174_normalized, failure, smart_223_raw, smart_222_raw, smart_13_normalized, smart_187_raw, smart_195_normalized, smart_195_raw, smart_12_raw, smart_182_normalized, smart_194_normalized, smart_190_normalized, smart_1_normalized, smart_193_normalized, model, smart_251_normalized, smart_235_raw, smart_3_normalized, smart_251_raw, smart_225_raw, smart_240_raw, smart_179_normalized, smart_1_raw, smart_252_raw, smart_15_normalized, smart_189_normalized, smart_223_normalized, smart_12_normalized, smart_240_normalized, smart_191_raw, smart_254_raw, smart_168_raw, smart_241_raw, smart_242_normalized, smart_8_normalized, smart_183_raw, smart_201_normalized, smart_1...\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731428197404_953536488",
+      "id": "paragraph_1731428197404_953536488",
+      "dateCreated": "2024-11-12 17:16:37.405",
+      "dateStarted": "2024-11-14 11:34:31.769",
+      "dateFinished": "2024-11-14 11:34:32.201",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### Code comment\nIn Python we know the list comprehension in the cell above I use Scala\u0027s for comprehension. \n```\nval result \u003d for {\n  x \u003c- List(1, 2, 3)\n  y \u003c- List(\"a\", \"b\")\n} yield (x, y)\n```\nHas a result `List((1, \"a\"), (1, \"b\"), (2, \"a\"), (2, \"b\"), (3, \"a\"), (3, \"b\"))`. The Scala for comprehension can use guards like Python\u0027s list comprehension and has several function such as `filter`, `map` and `flatMap` defined for it. \n\n\nAt this point I would want to introduce a quick fail fast test, before I do any computational heavy lifting. As with Python I can just use an assert to make sure that columns I am interested in are indeed a subset of the common columns. If the assert fails you will see a Java error, just showing you the close connection between Java and Scala.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:36:52.951",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eCode comment\u003c/h4\u003e\n\u003cp\u003eIn Python we know the list comprehension in the cell above I use Scala\u0026rsquo;s for comprehension.\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eval result \u003d for {\n  x \u0026lt;- List(1, 2, 3)\n  y \u0026lt;- List(\u0026quot;a\u0026quot;, \u0026quot;b\u0026quot;)\n} yield (x, y)\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eHas a result \u003ccode\u003eList((1, \u0026quot;a\u0026quot;), (1, \u0026quot;b\u0026quot;), (2, \u0026quot;a\u0026quot;), (2, \u0026quot;b\u0026quot;), (3, \u0026quot;a\u0026quot;), (3, \u0026quot;b\u0026quot;))\u003c/code\u003e. The Scala for comprehension can use guards like Python\u0026rsquo;s list comprehension and has several function such as \u003ccode\u003efilter\u003c/code\u003e, \u003ccode\u003emap\u003c/code\u003e and \u003ccode\u003eflatMap\u003c/code\u003e defined for it.\u003c/p\u003e\n\u003cp\u003eAt this point I would want to introduce a quick fail fast test, before I do any computational heavy lifting. As with Python I can just use an assert to make sure that columns I am interested in are indeed a subset of the common columns. If the assert fails you will see a Java error, just showing you the close connection between Java and Scala.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731421863972_889356343",
+      "id": "paragraph_1731421863972_889356343",
+      "dateCreated": "2024-11-12 15:31:03.973",
+      "dateStarted": "2024-11-14 11:36:52.949",
+      "dateFinished": "2024-11-14 11:36:52.965",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval interests \u003d Set(\"model\", \"failure\", \"date\", \"capacity_bytes\")\nassert(interests.subsetOf(commonColumns) \u003d\u003d true)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:37:00.664",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34minterests\u001b[0m: \u001b[1m\u001b[32mscala.collection.immutable.Set[String]\u001b[0m \u003d Set(model, failure, date, capacity_bytes)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731416326175_1551170767",
+      "id": "paragraph_1731416326175_1551170767",
+      "dateCreated": "2024-11-12 13:58:46.175",
+      "dateStarted": "2024-11-14 11:37:00.670",
+      "dateFinished": "2024-11-14 11:37:01.082",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval cols \u003d commonColumns.toList\nval fullData \u003d data.reduce((x,y) \u003d\u003e x.select(cols.map(col): _*).union(y.select(cols.map(col): _*))) \nfullData.select(interests.toList.map(col): _*).where(\"failure \u003d\u003d 1\").show(5)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:45:06.752",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+-------+----------+--------------+\n|               model|failure|      date|capacity_bytes|\n+--------------------+-------+----------+--------------+\n|  TOSHIBA MQ01ABF050|      1|2019-03-05|  500107862016|\n|       ST12000NM0007|      1|2019-03-08|12000138625024|\n|          ST500LM030|      1|2019-03-08|  500107862016|\n|         ST4000DM000|      1|2019-03-08| 4000787030016|\n|HGST HMS5C4040BLE640|      1|2019-03-08| 4000787030016|\n+--------------------+-------+----------+--------------+\nonly showing top 5 rows\n\nval \u001b[1m\u001b[34mcols\u001b[0m: \u001b[1m\u001b[32mList[String]\u001b[0m \u003d List(smart_13_raw, smart_224_normalized, smart_174_normalized, failure, smart_223_raw, smart_222_raw, smart_13_normalized, smart_187_raw, smart_195_normalized, smart_195_raw, smart_12_raw, smart_182_normalized, smart_194_normalized, smart_190_normalized, smart_1_normalized, smart_193_normalized, model, smart_251_normalized, smart_235_raw, smart_3_normalized, smart_251_raw, smart_225_raw, smart_240_raw, smart_179_normalized, smart_1_raw, smart_252_raw, smart_15_normalized, smart_189_normalized, smart_223_normalized, smart_12_normalized, smart_240_normalized, smart_191_raw, smart_254_raw, smart_168_raw, smart_241_raw, smart_242_normalized, smart_8_normalized, smart_183_raw, smart_201_normalized, smart_181_raw, smart_15_raw, smart_173_norm...\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d9"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731418988555_1545537668",
+      "id": "paragraph_1731418988555_1545537668",
+      "dateCreated": "2024-11-12 14:43:08.555",
+      "dateStarted": "2024-11-14 11:45:06.758",
+      "dateFinished": "2024-11-14 11:45:11.240",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### Code comment\nThe above code probably needs some commenting. \nThe `: _*` syntax is a Scala-specific feature called the \"splat operator\" or \"sequence wildcard.\" It is similar to the `*` unpacking operator in Python. What this code does is tell the compiler/interpreter to treat all the elements of `cols` individually and apply the `col` function to them. \nalso we see a great example of function composition here `fullData.select(interests.toList.map(col): _*).where(\"failure \u003d\u003d 1\").show(5)`. \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 11:47:42.325",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eCode comment\u003c/h4\u003e\n\u003cp\u003eThe above code probably needs some commenting.\u003cbr /\u003e\nThe \u003ccode\u003e: _*\u003c/code\u003e syntax is a Scala-specific feature called the \u0026ldquo;splat operator\u0026rdquo; or \u0026ldquo;sequence wildcard.\u0026rdquo; It is similar to the \u003ccode\u003e*\u003c/code\u003e unpacking operator in Python. What this code does is tell the compiler/interpreter to treat all the elements of \u003ccode\u003ecols\u003c/code\u003e individually and apply the \u003ccode\u003ecol\u003c/code\u003e function to them.\u003cbr /\u003e\nalso we see a great example of function composition here \u003ccode\u003efullData.select(interests.toList.map(col): _*).where(\u0026quot;failure \u003d\u003d 1\u0026quot;).show(5)\u003c/code\u003e.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731419875018_1424552169",
+      "id": "paragraph_1731419875018_1424552169",
+      "dateCreated": "2024-11-12 14:57:55.018",
+      "dateStarted": "2024-11-14 11:47:42.326",
+      "dateFinished": "2024-11-14 11:47:42.340",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\ncase class Rhino(name: String)\nval rhinos \u003d List(Rhino(\"Rhino\"), Rhino(\"George\"))\nval df \u003d spark.createDataFrame(rhinos)\ndf.select($\"name\", expr(\"length(name)\")).show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 13:29:11.695",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------+------------+\n|  name|length(name)|\n+------+------------+\n| Rhino|           5|\n|George|           6|\n+------+------------+\n\nclass Rhino\nval \u001b[1m\u001b[34mrhinos\u001b[0m: \u001b[1m\u001b[32mList[Rhino]\u001b[0m \u003d List(Rhino(Rhino), Rhino(George))\nval \u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [name: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731429650383_192863355",
+      "id": "paragraph_1731429650383_192863355",
+      "dateCreated": "2024-11-12 17:40:50.383",
+      "dateStarted": "2024-11-14 13:29:11.698",
+      "dateFinished": "2024-11-14 13:29:12.779",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### SQL expressions in Scala functions\nIf you carefully look at the above code you see that I use both normal Spark code but mix it with a SQL expression. You can use regular SQL expressions in three normal Scala functions:\n\n1. select \n2. selectExpr\n3. filter/where",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 13:36:34.929",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eSQL expressions in Scala functions\u003c/h4\u003e\n\u003cp\u003eIf you carefully look at the above code you see that I use both normal Spark code but mix it with a SQL expression. You can use regular SQL expressions in three normal Scala functions:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eselect\u003c/li\u003e\n\u003cli\u003eselectExpr\u003c/li\u003e\n\u003cli\u003efilter/where\u003c/li\u003e\n\u003c/ol\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731586807508_1485150490",
+      "id": "paragraph_1731586807508_1485150490",
+      "dateCreated": "2024-11-14 13:20:07.516",
+      "dateStarted": "2024-11-14 13:36:34.926",
+      "dateFinished": "2024-11-14 13:36:34.975",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval fullDataAddedColumn \u003d fullData\n    .withColumn( \"capacityInGB\", round(col(\"capacity_bytes\") / Math.pow(1024, 3), 0))\n    .select($\"model\", $\"failure\", $\"date\", $\"capacityInGB\")\n    .show(5)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 13:46:50.096",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+-------+----------+------------+\n|               model|failure|      date|capacityInGB|\n+--------------------+-------+----------+------------+\n|         ST4000DM000|      0|2019-03-05|      3726.0|\n|       ST12000NM0007|      0|2019-03-05|     11176.0|\n|       ST12000NM0007|      0|2019-03-05|     11176.0|\n|       ST12000NM0007|      0|2019-03-05|     11176.0|\n|HGST HMS5C4040ALE640|      0|2019-03-05|      3726.0|\n+--------------------+-------+----------+------------+\nonly showing top 5 rows\n\nval \u001b[1m\u001b[34mfullDataAddedColumn\u001b[0m: \u001b[1m\u001b[32mUnit\u001b[0m \u003d ()\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d14"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731587794924_1477864220",
+      "id": "paragraph_1731587794924_1477864220",
+      "dateCreated": "2024-11-14 13:36:34.924",
+      "dateStarted": "2024-11-14 13:46:50.099",
+      "dateFinished": "2024-11-14 13:46:51.283",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nusing SQL expressions with Scala might make this more clear\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 13:40:37.867",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eusing SQL expressions with Scala might make this more clear\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731587980527_1614582440",
+      "id": "paragraph_1731587980527_1614582440",
+      "dateCreated": "2024-11-14 13:39:40.527",
+      "dateStarted": "2024-11-14 13:40:37.867",
+      "dateFinished": "2024-11-14 13:40:37.881",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval fullDataGB \u003d fullData.selectExpr(\n    \"model\",\n    \"failure\",\n    \"date\",\n    \"round(capacity_bytes / pow(1024,3),0) as capacityInGB\"\n    )\n    \nfullDataGB.show(5)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 13:45:50.446",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+-------+----------+------------+\n|               model|failure|      date|capacityInGB|\n+--------------------+-------+----------+------------+\n|         ST4000DM000|      0|2019-03-05|      3726.0|\n|       ST12000NM0007|      0|2019-03-05|     11176.0|\n|       ST12000NM0007|      0|2019-03-05|     11176.0|\n|       ST12000NM0007|      0|2019-03-05|     11176.0|\n|HGST HMS5C4040ALE640|      0|2019-03-05|      3726.0|\n+--------------------+-------+----------+------------+\nonly showing top 5 rows\n\nval \u001b[1m\u001b[34mfullDataGB\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [model: string, failure: string ... 2 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d12"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731588037866_266703346",
+      "id": "paragraph_1731588037866_266703346",
+      "dateCreated": "2024-11-14 13:40:37.866",
+      "dateStarted": "2024-11-14 13:45:50.450",
+      "dateFinished": "2024-11-14 13:45:51.960",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval driveDays \u003d fullDataGB\n    .groupBy($\"model\", $\"capacityInGB\")\n    .agg(count(\"*\").alias(\"driveDays\"))\n\nval failures \u003d fullDataGB\n    .filter(\"failure \u003d\u003d 1\")\n    .groupBy($\"model\", $\"capacityInGB\")\n    .agg(count(\"*\").alias(\"failures\"))\n\nval summarizedData \u003d driveDays.join(failures, Seq(\"model\", \"capacityInGB\"), \"left\")\n    .na.fill(value\u003d0.0, cols\u003dSeq(\"failures\"))\n    .selectExpr(\"model\", \"capacityInGB\", \"failures / driveDays as failureRate\")\n    .cache()\n\n// summarizedData.show(10)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 14:51:09.525",
+      "progress": 26,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mdriveDays\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [model: string, capacityInGB: double ... 1 more field]\nval \u001b[1m\u001b[34mfailures\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [model: string, capacityInGB: double ... 1 more field]\nval \u001b[1m\u001b[34msummarizedData\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [model: string, capacityInGB: double ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731588145347_340984991",
+      "id": "paragraph_1731588145347_340984991",
+      "dateCreated": "2024-11-14 13:42:25.347",
+      "dateStarted": "2024-11-14 14:51:09.528",
+      "dateFinished": "2024-11-14 14:51:10.229",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### code comment\nIn the above code I use the cache function, but what does cache function do? If you look up the Spark documentation on cache, you get a perfectly nothing-saying answer: Persists the DataFrame with the default storage level. It really should be saying cache stores intermediary DataFrames for later computational use. Meaning that instead of recomputing all results, caching stores some results in memory so later calculations can use these partial results.\n\nWhy is caching so important? Three reasons:\n\n1. Cost-efficiency. Distributed computations, like Spark\u0027s, are expensive. Reusing computations saves money, especially in environments like Azure or GCC where you may have to pay for CPU usage.\n2. Time-efficiency. Obviously, you save time by not having to redo computations but by using stored results.\n3. Exexcution-efficiency: Again, quite obviously, not having to redo computation means the execution will be more efficient and you can perform more jobs per cluster.\n\nThe easiest way to see the advantages of caching results is with an example. Take a function that tells you the n-th Fibonacci number, if you calculate a Fibonacci sequence with simple recursion like below it will recalculate already calculates sub results, slowing it down ernormously. \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 15:14:13.166",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003ecode comment\u003c/h4\u003e\n\u003cp\u003eIn the above code I use the cache function, but what does cache function do? If you look up the Spark documentation on cache, you get a perfectly nothing-saying answer: Persists the DataFrame with the default storage level. It really should be saying cache stores intermediary DataFrames for later computational use. Meaning that instead of recomputing all results, caching stores some results in memory so later calculations can use these partial results.\u003c/p\u003e\n\u003cp\u003eWhy is caching so important? Three reasons:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eCost-efficiency. Distributed computations, like Spark\u0026rsquo;s, are expensive. Reusing computations saves money, especially in environments like Azure or GCC where you may have to pay for CPU usage.\u003c/li\u003e\n\u003cli\u003eTime-efficiency. Obviously, you save time by not having to redo computations but by using stored results.\u003c/li\u003e\n\u003cli\u003eExexcution-efficiency: Again, quite obviously, not having to redo computation means the execution will be more efficient and you can perform more jobs per cluster.\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003eThe easiest way to see the advantages of caching results is with an example. Take a function that tells you the n-th Fibonacci number, if you calculate a Fibonacci sequence with simple recursion like below it will recalculate already calculates sub results, slowing it down ernormously.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731592258200_706720819",
+      "id": "paragraph_1731592258200_706720819",
+      "dateCreated": "2024-11-14 14:50:58.201",
+      "dateStarted": "2024-11-14 15:14:13.166",
+      "dateFinished": "2024-11-14 15:14:13.195",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\ndef fib(n: Int): Int \u003d if (n \u003c 2) n else fib(n - 1) + fib(n - 2)\n\nfib(100)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 15:14:27.098",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731592934874_1177925592",
+      "id": "paragraph_1731592934874_1177925592",
+      "dateCreated": "2024-11-14 15:02:14.874",
+      "dateStarted": "2024-11-14 15:14:27.101",
+      "dateFinished": "2024-11-14 15:14:21.185",
+      "status": "ABORT"
+    },
+    {
+      "text": "%md\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 15:18:38.011",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731593879361_205432007",
+      "id": "paragraph_1731593879361_205432007",
+      "dateCreated": "2024-11-14 15:17:59.361",
+      "status": "READY"
+    },
+    {
+      "text": "%spark\n\ndef mostReliableDriveForCapacity(df: DataFrame, capacityInGB: Int \u003d 2048, precision:Double \u003d 0.25, topN:Int \u003d 3): DataFrame \u003d {\n    val minCapacity \u003d capacityInGB / (1 + precision)\n    val maxCapacity \u003d capacityInGB * (1 + precision)\n    df.filter(s\"capacityInGB between $minCapacity and $maxCapacity\")\n    .sort($\"failureRate\", $\"capacityInGB\".desc)\n    .limit(topN)\n    }",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 14:52:46.564",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "def mostReliableDriveForCapacity(df: org.apache.spark.sql.DataFrame, capacityInGB: Int, precision: Double, topN: Int): \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731588466093_1276878376",
+      "id": "paragraph_1731588466093_1276878376",
+      "dateCreated": "2024-11-14 13:47:46.094",
+      "dateStarted": "2024-11-14 14:52:46.567",
+      "dateFinished": "2024-11-14 14:52:46.800",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nmostReliableDriveForCapacity(df\u003dsummarizedData, capacityInGB\u003d11176).show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 14:52:50.306",
+      "progress": 53,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+------------+--------------------+\n|               model|capacityInGB|         failureRate|\n+--------------------+------------+--------------------+\n|HGST HUH721010ALE600|      9314.0|                 0.0|\n|HGST HUH721212ALN604|     11176.0|1.053720423384866...|\n|HGST HUH721212ALE600|     11176.0|1.528677999266234...|\n+--------------------+------------+--------------------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d36"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731591900304_194548747",
+      "id": "paragraph_1731591900304_194548747",
+      "dateCreated": "2024-11-14 14:45:00.319",
+      "dateStarted": "2024-11-14 14:52:50.310",
+      "dateFinished": "2024-11-14 14:52:52.464",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nmostReliableDriveForCapacity(df\u003dsummarizedData, capacityInGB\u003d6500).show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 14:53:31.058",
+      "progress": 61,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+---------------+------------+-----------+\n|          model|capacityInGB|failureRate|\n+---------------+------------+-----------+\n|    ST6000DM001|      5589.0|        0.0|\n|    ST6000DM004|      5589.0|        0.0|\n|TOSHIBA HDWE160|      5589.0|        0.0|\n+---------------+------------+-----------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d37"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731592213805_702889929",
+      "id": "paragraph_1731592213805_702889929",
+      "dateCreated": "2024-11-14 14:50:13.805",
+      "dateStarted": "2024-11-14 14:53:31.061",
+      "dateFinished": "2024-11-14 14:53:33.097",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-14 14:53:31.061",
+      "progress": 0,
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731592411060_1233894",
+      "id": "paragraph_1731592411060_1233894",
+      "dateCreated": "2024-11-14 14:53:31.061",
+      "status": "READY"
+    }
+  ],
+  "name": "AdvancedSpark",
+  "id": "2KDGUTDM9",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.11.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}

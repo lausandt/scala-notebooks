@@ -1,0 +1,3471 @@
+{
+  "paragraphs": [
+    {
+      "text": "%spark\n\n//cell for imports\nimport org.apache.spark.sql.DataFrame\nimport org.apache.spark.sql.types._",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 11:06:58.377",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.sql.DataFrame\nimport org.apache.spark.sql.types._\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730882838895_222554652",
+      "id": "paragraph_1730882838895_222554652",
+      "dateCreated": "2024-11-06 09:47:18.895",
+      "dateStarted": "2024-11-11 11:06:58.426",
+      "dateFinished": "2024-11-11 11:07:27.961",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n$$x \u003d {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:23:20.442",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003e$$x \u003d {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730982163611_1472094013",
+      "id": "paragraph_1730982163611_1472094013",
+      "dateCreated": "2024-11-07 13:22:43.612",
+      "dateStarted": "2024-11-07 13:23:20.443",
+      "dateFinished": "2024-11-07 13:23:23.784",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \n## SQL operations in Spark using Scala\n\nWith the advent of the Spark.sql API and the DataFrame data-structure, the relationship between SQL and the Spark api has become obvious. Where in the introduction notebook we looked at different ways of selecting columns, had a closer look at columns, but also introduced Scala and how it compares to Python. In this notebook we will look at how to perform SQL operations using Spark \u0026 Scala.\n\nBefore we continue looking at Spark Scala equivalents to SQL, we should quickly answer two questions:\n\n1. Can we use SQL instead of Scala?\n2. Should we use SQL instead of Scala?\n\nThe short answers are yes and no. To eleborate why should choose to use Scala instead of SQL. In the introduction notebook I gave a few reasons why we should use Scala, easy to learn, great ecosystem of libraries, Spark being one of them, and flexible in use. I also mentioned three reasons why we should prefer Scala over Python:\n\n1. The most important is that with Scala your code will be more robust, less prone to faults than it would be with Python. This due to the fact that Scala is both strongly and staticaly typed.\n2. Scala is the language that Spark was written in, Spark functions are Scala functions no need to seperately import them. Scala will be faster as well, as it does not need the transformation Python does. \n3. Scala is an actual functional language with some imperative capabilities, Python is an imperative language that allows you to do functional style programming. Data science is all about evaluating and composing functions, so is the functional programming paradigm, they are a natural fit.\n\nSQL as language is less powerful than Python or Scala are, you can do more with Python or Scala. In a computer science term, Scala and Python are Turing complete, meaning roughly that if something can be computed, it can by those languages. SQL is not Turing complete, there are thing one can can compute with Scala or Python and not with SQL. For instance you can do graphics with Scala or Python, you cannot do that with SQL. The more important reason why you should use Scala or Java or Python is that these languages are easier to read. If you have ever seen a very large query, with subqueries, views, and/or multiple joins, you will know how difficult it is to follow what is happening. SQL is more error prone than the other three languages. The most important reason why you should use Scala\\Python\\Java instead of SQL; they are very good at breaking up problems into smaller easier to solve problems, which you can than combine in to a solution, SQL is not. \n\nPerformance wise there is not necessarily a difference between using Scala and SQL. This is a nuanced issue, in theb sense that sometimes SQL and Scala would be more performant. \n\nAs with the previous notebook, this notebook continuous with Spark Scala equivalents to SQL. That means looking at how to perform joins, order, group things, and using aggregate functions.\n\nWe start with the same broadcast logs as the base DataFrame. ALL CSV files can be found at: [GitHub](https://github.com/jonesberg/DataAnalysisWithPythonAndPySpark-Data/tree/trunk/broadcast_logs)\n\nYou have to remember to change the path if you run this code.",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 11:07:20.749",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eSQL operations in Spark using Scala\u003c/h2\u003e\n\u003cp\u003eWith the advent of the Spark.sql API and the DataFrame data-structure, the relationship between SQL and the Spark api has become obvious. Where in the introduction notebook we looked at different ways of selecting columns, had a closer look at columns, but also introduced Scala and how it compares to Python. In this notebook we will look at how to perform SQL operations using Spark \u0026amp; Scala.\u003c/p\u003e\n\u003cp\u003eBefore we continue looking at Spark Scala equivalents to SQL, we should quickly answer two questions:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eCan we use SQL instead of Scala?\u003c/li\u003e\n\u003cli\u003eShould we use SQL instead of Scala?\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003eThe short answers are yes and no. To eleborate why should choose to use Scala instead of SQL. In the introduction notebook I gave a few reasons why we should use Scala, easy to learn, great ecosystem of libraries, Spark being one of them, and flexible in use. I also mentioned three reasons why we should prefer Scala over Python:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eThe most important is that with Scala your code will be more robust, less prone to faults than it would be with Python. This due to the fact that Scala is both strongly and staticaly typed.\u003c/li\u003e\n\u003cli\u003eScala is the language that Spark was written in, Spark functions are Scala functions no need to seperately import them. Scala will be faster as well, as it does not need the transformation Python does.\u003c/li\u003e\n\u003cli\u003eScala is an actual functional language with some imperative capabilities, Python is an imperative language that allows you to do functional style programming. Data science is all about evaluating and composing functions, so is the functional programming paradigm, they are a natural fit.\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003eSQL as language is less powerful than Python or Scala are, you can do more with Python or Scala. In a computer science term, Scala and Python are Turing complete, meaning roughly that if something can be computed, it can by those languages. SQL is not Turing complete, there are thing one can can compute with Scala or Python and not with SQL. For instance you can do graphics with Scala or Python, you cannot do that with SQL. The more important reason why you should use Scala or Java or Python is that these languages are easier to read. If you have ever seen a very large query, with subqueries, views, and/or multiple joins, you will know how difficult it is to follow what is happening. SQL is more error prone than the other three languages. The most important reason why you should use Scala\\Python\\Java instead of SQL; they are very good at breaking up problems into smaller easier to solve problems, which you can than combine in to a solution, SQL is not.\u003c/p\u003e\n\u003cp\u003ePerformance wise there is not necessarily a difference between using Scala and SQL. This is a nuanced issue, in theb sense that sometimes SQL and Scala would be more performant.\u003c/p\u003e\n\u003cp\u003eAs with the previous notebook, this notebook continuous with Spark Scala equivalents to SQL. That means looking at how to perform joins, order, group things, and using aggregate functions.\u003c/p\u003e\n\u003cp\u003eWe start with the same broadcast logs as the base DataFrame. ALL CSV files can be found at: \u003ca href\u003d\"https://github.com/jonesberg/DataAnalysisWithPythonAndPySpark-Data/tree/trunk/broadcast_logs\"\u003eGitHub\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eYou have to remember to change the path if you run this code.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730467579994_222404607",
+      "id": "paragraph_1730467579994_222404607",
+      "dateCreated": "2024-11-01 14:26:19.994",
+      "dateStarted": "2024-11-11 11:07:20.797",
+      "dateFinished": "2024-11-11 11:07:28.135",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\nval path1 \u003d \"/media/laurens/DISKJE/ProgrammingProjects/broadcast_logs/\"\nval path2 \u003d \"/media/laurens/DISKJE/ProgrammingProjects/broadcast_logs/ReferenceTables/\"\n\nval broadcastLogs \u003d spark.read //this is a bit simpler in Python indeed\n    .option(\"sep\", \"|\")\n    .option(\"header\", \"true\")\n    .option(\"inferSchema\", \"true\")\n    .option(\"timestampFormat\", \"yyyy-MM-dd\")\n    .csv(path1 + \"BroadcastLogs_2018_Q3_M8_sample.CSV\")\n\nbroadcastLogs.printSchema()\n\nval logIdentifier \u003d spark.read\n    .option(\"sep\",\"|\")\n    .option(\"header\",\"true\")\n    .option(\"inferSchema\", \"true\")\n    .csv(path2 + \"LogIdentifier.csv\")\n    \nlogIdentifier.printSchema()\nlogIdentifier.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:49:15.051",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- BroadcastLogID: integer (nullable \u003d true)\n |-- LogServiceID: integer (nullable \u003d true)\n |-- LogDate: date (nullable \u003d true)\n |-- SequenceNO: integer (nullable \u003d true)\n |-- AudienceTargetAgeID: integer (nullable \u003d true)\n |-- AudienceTargetEthnicID: integer (nullable \u003d true)\n |-- CategoryID: integer (nullable \u003d true)\n |-- ClosedCaptionID: integer (nullable \u003d true)\n |-- CountryOfOriginID: integer (nullable \u003d true)\n |-- DubDramaCreditID: integer (nullable \u003d true)\n |-- EthnicProgramID: integer (nullable \u003d true)\n |-- ProductionSourceID: integer (nullable \u003d true)\n |-- ProgramClassID: integer (nullable \u003d true)\n |-- FilmClassificationID: integer (nullable \u003d true)\n |-- ExhibitionID: integer (nullable \u003d true)\n |-- Duration: string (nullable \u003d true)\n |-- EndTime: string (nullable \u003d true)\n |-- LogEntryDate: date (nullable \u003d true)\n |-- ProductionNO: string (nullable \u003d true)\n |-- ProgramTitle: string (nullable \u003d true)\n |-- StartTime: string (nullable \u003d true)\n |-- Subtitle: string (nullable \u003d true)\n |-- NetworkAffiliationID: integer (nullable \u003d true)\n |-- SpecialAttentionID: integer (nullable \u003d true)\n |-- BroadcastOriginPointID: integer (nullable \u003d true)\n |-- CompositionID: integer (nullable \u003d true)\n |-- Producer1: string (nullable \u003d true)\n |-- Producer2: string (nullable \u003d true)\n |-- Language1: integer (nullable \u003d true)\n |-- Language2: integer (nullable \u003d true)\n\nroot\n |-- LogIdentifierID: string (nullable \u003d true)\n |-- LogServiceID: integer (nullable \u003d true)\n |-- PrimaryFG: integer (nullable \u003d true)\n\n+---------------+------------+---------+\n|LogIdentifierID|LogServiceID|PrimaryFG|\n+---------------+------------+---------+\n|           13ST|        3157|        1|\n|         2000SM|        3466|        1|\n|           70SM|        3883|        1|\n|           80SM|        3590|        1|\n|           90SM|        3470|        1|\n+---------------+------------+---------+\nonly showing top 5 rows\n\nval \u001b[1m\u001b[34mpath1\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m \u003d /media/laurens/DISKJE/ProgrammingProjects/broadcast_logs/\nval \u001b[1m\u001b[34mpath2\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m \u003d /media/laurens/DISKJE/ProgrammingProjects/broadcast_logs/ReferenceTables/\nval \u001b[1m\u001b[34mbroadcastLogs\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [BroadcastLogID: int, LogServiceID: int ... 28 more fields]\nval \u001b[1m\u001b[34mlogIdentifier\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [LogIdentifierID: string, LogServiceID: int ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d0"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d1"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d2"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d3"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d4"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730476233750_2015155207",
+      "id": "paragraph_1730476233750_2015155207",
+      "dateCreated": "2024-11-01 16:50:33.750",
+      "dateStarted": "2024-11-07 13:49:15.058",
+      "dateFinished": "2024-11-07 13:49:29.061",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### The different joins in Spark\n\nThe purpose of a join is to answer one of two questions: what happens when the return value of the predicate is true, and conversely.\n\n#### The types of joins\n\n- The inner join returns the record if the predicate is true; otherwise, it drops it. Standard join option.\n- The left/right inner join will join the unmatched records from the left/right, filling the columns from the right/left with NULL.\n- The full outer join: the fusion from the left and right inner join will add the unmatched records from the left and right padding with NULL.\n- The left semi join: same as an inner join, it keeps the columns on the left but will discard those rows that fulfil the predicate with more than one record from the right.\n- The left anti-join keeps only those records from the left that do not match with the predicate; it will drop all those that do.\n- A Cartesian product, or cross-join. Spark has a specific `crossJoin()` method. Obviously, using this method will explode your DataFrame into enormous proportions!\n\nAll these different joins are parameter values in the `join` method, with the key word \"how\" as in how\u003dinner. Inner is the standard option in the `join` method.\n\nPerformance-wise, you will need to have both tables on the same computer; if not, Spark will perform the join on the network, which will quickly cost you \u003e99% of performance.",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-06 10:43:59.027",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eThe different joins in Spark\u003c/h4\u003e\n\u003cp\u003eThe purpose of a join is to answer one of two questions: what happens when the return value of the predicate is true, and conversely.\u003c/p\u003e\n\u003ch4\u003eThe types of joins\u003c/h4\u003e\n\u003cul\u003e\n\u003cli\u003eThe inner join returns the record if the predicate is true; otherwise, it drops it. Standard join option.\u003c/li\u003e\n\u003cli\u003eThe left/right inner join will join the unmatched records from the left/right, filling the columns from the right/left with NULL.\u003c/li\u003e\n\u003cli\u003eThe full outer join: the fusion from the left and right inner join will add the unmatched records from the left and right padding with NULL.\u003c/li\u003e\n\u003cli\u003eThe left semi join: same as an inner join, it keeps the columns on the left but will discard those rows that fulfil the predicate with more than one record from the right.\u003c/li\u003e\n\u003cli\u003eThe left anti-join keeps only those records from the left that do not match with the predicate; it will drop all those that do.\u003c/li\u003e\n\u003cli\u003eA Cartesian product, or cross-join. Spark has a specific \u003ccode\u003ecrossJoin()\u003c/code\u003e method. Obviously, using this method will explode your DataFrame into enormous proportions!\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003eAll these different joins are parameter values in the \u003ccode\u003ejoin\u003c/code\u003e method, with the key word \u0026ldquo;how\u0026rdquo; as in how\u003dinner. Inner is the standard option in the \u003ccode\u003ejoin\u003c/code\u003e method.\u003c/p\u003e\n\u003cp\u003ePerformance-wise, you will need to have both tables on the same computer; if not, Spark will perform the join on the network, which will quickly cost you \u0026gt;99% of performance.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730476328873_1013363035",
+      "id": "paragraph_1730476328873_1013363035",
+      "dateCreated": "2024-11-01 16:52:08.873",
+      "dateStarted": "2024-11-06 10:43:59.064",
+      "dateFinished": "2024-11-06 10:43:59.157",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval logsAndChannelsVerbose \u003d broadcastLogs.join(logIdentifier, broadcastLogs(\"LogServiceID\") \u003d\u003d\u003d logIdentifier(\"LogServiceID\"), \"inner\")\nlogsAndChannelsVerbose.printSchema()",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:49:39.332",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- BroadcastLogID: integer (nullable \u003d true)\n |-- LogServiceID: integer (nullable \u003d true)\n |-- LogDate: date (nullable \u003d true)\n |-- SequenceNO: integer (nullable \u003d true)\n |-- AudienceTargetAgeID: integer (nullable \u003d true)\n |-- AudienceTargetEthnicID: integer (nullable \u003d true)\n |-- CategoryID: integer (nullable \u003d true)\n |-- ClosedCaptionID: integer (nullable \u003d true)\n |-- CountryOfOriginID: integer (nullable \u003d true)\n |-- DubDramaCreditID: integer (nullable \u003d true)\n |-- EthnicProgramID: integer (nullable \u003d true)\n |-- ProductionSourceID: integer (nullable \u003d true)\n |-- ProgramClassID: integer (nullable \u003d true)\n |-- FilmClassificationID: integer (nullable \u003d true)\n |-- ExhibitionID: integer (nullable \u003d true)\n |-- Duration: string (nullable \u003d true)\n |-- EndTime: string (nullable \u003d true)\n |-- LogEntryDate: date (nullable \u003d true)\n |-- ProductionNO: string (nullable \u003d true)\n |-- ProgramTitle: string (nullable \u003d true)\n |-- StartTime: string (nullable \u003d true)\n |-- Subtitle: string (nullable \u003d true)\n |-- NetworkAffiliationID: integer (nullable \u003d true)\n |-- SpecialAttentionID: integer (nullable \u003d true)\n |-- BroadcastOriginPointID: integer (nullable \u003d true)\n |-- CompositionID: integer (nullable \u003d true)\n |-- Producer1: string (nullable \u003d true)\n |-- Producer2: string (nullable \u003d true)\n |-- Language1: integer (nullable \u003d true)\n |-- Language2: integer (nullable \u003d true)\n |-- LogIdentifierID: string (nullable \u003d true)\n |-- LogServiceID: integer (nullable \u003d true)\n |-- PrimaryFG: integer (nullable \u003d true)\n\nval \u001b[1m\u001b[34mlogsAndChannelsVerbose\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [BroadcastLogID: int, LogServiceID: int ... 31 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730477461690_1177268194",
+      "id": "paragraph_1730477461690_1177268194",
+      "dateCreated": "2024-11-01 17:11:01.692",
+      "dateStarted": "2024-11-07 13:49:39.342",
+      "dateFinished": "2024-11-07 13:49:39.896",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nLike with Python using Scala this is not the correct way to do it, we will now have double column name, so which one to select?\n\nThat brings me neatly to point that in functional languages you do not catch errors like you would in Python, instead you would wrap the result in a container and depending on the container value decide how to proceed.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:49:46.685",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eLike with Python using Scala this is not the correct way to do it, we will now have double column name, so which one to select?\u003c/p\u003e\n\u003cp\u003eThat brings me neatly to point that in functional languages you do not catch errors like you would in Python, instead you would wrap the result in a container and depending on the container value decide how to proceed.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730547705806_384720619",
+      "id": "paragraph_1730547705806_384720619",
+      "dateCreated": "2024-11-02 12:41:45.806",
+      "dateStarted": "2024-11-07 13:49:46.684",
+      "dateFinished": "2024-11-07 13:49:46.699",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\ndef confusion(df: DataFrame, colName: String): Option[DataFrame] \u003d \n  try {\n    Some(df.select(colName))\n  } catch {\n    case e: Exception \u003d\u003e None\n  }",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:50:01.469",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "def confusion(df: org.apache.spark.sql.DataFrame, colName: String): \u001b[1m\u001b[32mOption[org.apache.spark.sql.DataFrame]\u001b[0m\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730477655379_356084560",
+      "id": "paragraph_1730477655379_356084560",
+      "dateCreated": "2024-11-01 17:14:15.379",
+      "dateStarted": "2024-11-07 13:50:01.487",
+      "dateFinished": "2024-11-07 13:50:01.893",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nconfusion(logsAndChannelsVerbose, \"LogServiceID\")",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:50:05.477",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres4\u001b[0m: \u001b[1m\u001b[32mOption[org.apache.spark.sql.DataFrame]\u001b[0m \u003d None\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730545630826_11640726",
+      "id": "paragraph_1730545630826_11640726",
+      "dateCreated": "2024-11-02 12:07:10.826",
+      "dateStarted": "2024-11-07 13:50:05.490",
+      "dateFinished": "2024-11-07 13:50:05.806",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nconfusion(logsAndChannelsVerbose, \"ProgramTitle\")",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:50:12.669",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres5\u001b[0m: \u001b[1m\u001b[32mOption[org.apache.spark.sql.DataFrame]\u001b[0m \u003d Some([ProgramTitle: string])\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730545989340_1349175142",
+      "id": "paragraph_1730545989340_1349175142",
+      "dateCreated": "2024-11-02 12:13:09.345",
+      "dateStarted": "2024-11-07 13:50:12.685",
+      "dateFinished": "2024-11-07 13:50:13.011",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nNow if we get a None we can handle the mistake according to some protocol, if we get a Some value we just unpack it and continue with the dataframe we wanted. \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:50:20.584",
+      "progress": 0,
+      "config": {
+        "tableHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eNow if we get a None we can handle the mistake according to some protocol, if we get a Some value we just unpack it and continue with the dataframe we wanted.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730550697044_825788942",
+      "id": "paragraph_1730550697044_825788942",
+      "dateCreated": "2024-11-02 13:31:37.044",
+      "dateStarted": "2024-11-07 13:50:15.779",
+      "dateFinished": "2024-11-07 13:50:15.790",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nWe can make the join above without the \u003d\u003d\u003d and drop the offending column in one swoop",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:50:31.236",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe can make the join above without the \u003d\u003d\u003d and drop the offending column in one swoop\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730550794055_838294388",
+      "id": "paragraph_1730550794055_838294388",
+      "dateCreated": "2024-11-02 13:33:14.055",
+      "dateStarted": "2024-11-07 13:50:31.236",
+      "dateFinished": "2024-11-07 13:50:31.256",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\nval logsAndChannelsVerbose \u003d broadcastLogs.join(logIdentifier, \"LogServiceID\", \"inner\").drop(logIdentifier(\"LogServiceID\"))\nlogsAndChannelsVerbose.printSchema()\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:50:41.075",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- LogServiceID: integer (nullable \u003d true)\n |-- BroadcastLogID: integer (nullable \u003d true)\n |-- LogDate: date (nullable \u003d true)\n |-- SequenceNO: integer (nullable \u003d true)\n |-- AudienceTargetAgeID: integer (nullable \u003d true)\n |-- AudienceTargetEthnicID: integer (nullable \u003d true)\n |-- CategoryID: integer (nullable \u003d true)\n |-- ClosedCaptionID: integer (nullable \u003d true)\n |-- CountryOfOriginID: integer (nullable \u003d true)\n |-- DubDramaCreditID: integer (nullable \u003d true)\n |-- EthnicProgramID: integer (nullable \u003d true)\n |-- ProductionSourceID: integer (nullable \u003d true)\n |-- ProgramClassID: integer (nullable \u003d true)\n |-- FilmClassificationID: integer (nullable \u003d true)\n |-- ExhibitionID: integer (nullable \u003d true)\n |-- Duration: string (nullable \u003d true)\n |-- EndTime: string (nullable \u003d true)\n |-- LogEntryDate: date (nullable \u003d true)\n |-- ProductionNO: string (nullable \u003d true)\n |-- ProgramTitle: string (nullable \u003d true)\n |-- StartTime: string (nullable \u003d true)\n |-- Subtitle: string (nullable \u003d true)\n |-- NetworkAffiliationID: integer (nullable \u003d true)\n |-- SpecialAttentionID: integer (nullable \u003d true)\n |-- BroadcastOriginPointID: integer (nullable \u003d true)\n |-- CompositionID: integer (nullable \u003d true)\n |-- Producer1: string (nullable \u003d true)\n |-- Producer2: string (nullable \u003d true)\n |-- Language1: integer (nullable \u003d true)\n |-- Language2: integer (nullable \u003d true)\n |-- LogIdentifierID: string (nullable \u003d true)\n |-- PrimaryFG: integer (nullable \u003d true)\n\nval \u001b[1m\u001b[34mlogsAndChannelsVerbose\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [LogServiceID: int, BroadcastLogID: int ... 30 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730550996016_135579475",
+      "id": "paragraph_1730550996016_135579475",
+      "dateCreated": "2024-11-02 13:36:36.016",
+      "dateStarted": "2024-11-07 13:50:41.087",
+      "dateFinished": "2024-11-07 13:50:41.471",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \nAs you can see instead of a None we get a Some value if we run `confusion()` now\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-06 09:50:36.638",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAs you can see instead of a None we get a Some value if we run \u003ccode\u003econfusion()\u003c/code\u003e now\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730551319766_422123357",
+      "id": "paragraph_1730551319766_422123357",
+      "dateCreated": "2024-11-02 13:41:59.766",
+      "dateStarted": "2024-11-06 09:50:36.638",
+      "dateFinished": "2024-11-06 09:50:36.648",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nconfusion(logsAndChannelsVerbose, \"LogServiceID\")",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:50:47.521",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres9\u001b[0m: \u001b[1m\u001b[32mOption[org.apache.spark.sql.DataFrame]\u001b[0m \u003d Some([LogServiceID: int])\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730551097391_444171365",
+      "id": "paragraph_1730551097391_444171365",
+      "dateCreated": "2024-11-02 13:38:17.393",
+      "dateStarted": "2024-11-07 13:50:47.531",
+      "dateFinished": "2024-11-07 13:50:47.819",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nWe can join multiple tables in one go \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-05 14:49:05.576",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe can join multiple tables in one go\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730551314427_1040408913",
+      "id": "paragraph_1730551314427_1040408913",
+      "dateCreated": "2024-11-02 13:41:54.427",
+      "dateStarted": "2024-11-05 14:49:05.583",
+      "dateFinished": "2024-11-05 14:49:05.593",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval cdCategory \u003d spark.read\n    .option(\"sep\", \"|\")\n    .option(\"header\", \"true\")\n    .option(\"inferSchema\", \"true\").csv(\n        path\u003dpath2 + \"CD_Category.csv\")\n    .select(\n        col(\"CategoryID\"), // In PySpark we could forgp the col here, but regular Spark this will create an erropr\n        col(\"CategoryCD\"),\n        col(\"EnglishDescription\").alias(\"CategoryDescription\"),\n)\n\ncdCategory.show(5)\n\nval cdProgramClass \u003d spark.read\n    .option(\"sep\", \"|\")\n    .option(\"header\", \"true\")\n    .option(\"inferSchema\", \"true\").csv(\n        path\u003dpath2 + \"CD_ProgramClass.csv\")\n     .select(\n         col(\"ProgramClassID\"),\n         col(\"ProgramClassCD\"),\n         col(\"EnglishDescription\").alias(\"ProgramClassDescription\"),\n)\n\ncdProgramClass.show(5)\n\n/* joining 3 tables together */\n\nval fullLog: DataFrame \u003d logsAndChannelsVerbose.join(\n    cdCategory, \"CategoryID\", \"left\").join(cdProgramClass, \"ProgramClassID\",\"left\")\n    \nfullLog.printSchema()\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:50:50.519",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+----------+----------+--------------------+\n|CategoryID|CategoryCD| CategoryDescription|\n+----------+----------+--------------------+\n|         1|       010|                NEWS|\n|         2|       02 |CANREC  ANALYSIS ...|\n|         3|       02A|ANALYSIS AND INTE...|\n|         4|       02B|LONG-FORM DOCUMEN...|\n|         5|       030|REPORTING \u0026 ACTUA...|\n+----------+----------+--------------------+\nonly showing top 5 rows\n\n+--------------+--------------+-----------------------+\n|ProgramClassID|ProgramClassCD|ProgramClassDescription|\n+--------------+--------------+-----------------------+\n|             1|          AUT |          AUTOPROMOTION|\n|             2|          BAL |    BALANCE PROGRAMMING|\n|             3|          COM |     COMMERCIAL MESSAGE|\n|             4|          COR |            CORNERSTONE|\n|             5|          DOC |            DOCUMENTARY|\n+--------------+--------------+-----------------------+\nonly showing top 5 rows\n\nroot\n |-- ProgramClassID: integer (nullable \u003d true)\n |-- CategoryID: integer (nullable \u003d true)\n |-- LogServiceID: integer (nullable \u003d true)\n |-- BroadcastLogID: integer (nullable \u003d true)\n |-- LogDate: date (nullable \u003d true)\n |-- SequenceNO: integer (nullable \u003d true)\n |-- AudienceTargetAgeID: integer (nullable \u003d true)\n |-- AudienceTargetEthnicID: integer (nullable \u003d true)\n |-- ClosedCaptionID: integer (nullable \u003d true)\n |-- CountryOfOriginID: integer (nullable \u003d true)\n |-- DubDramaCreditID: integer (nullable \u003d true)\n |-- EthnicProgramID: integer (nullable \u003d true)\n |-- ProductionSourceID: integer (nullable \u003d true)\n |-- FilmClassificationID: integer (nullable \u003d true)\n |-- ExhibitionID: integer (nullable \u003d true)\n |-- Duration: string (nullable \u003d true)\n |-- EndTime: string (nullable \u003d true)\n |-- LogEntryDate: date (nullable \u003d true)\n |-- ProductionNO: string (nullable \u003d true)\n |-- ProgramTitle: string (nullable \u003d true)\n |-- StartTime: string (nullable \u003d true)\n |-- Subtitle: string (nullable \u003d true)\n |-- NetworkAffiliationID: integer (nullable \u003d true)\n |-- SpecialAttentionID: integer (nullable \u003d true)\n |-- BroadcastOriginPointID: integer (nullable \u003d true)\n |-- CompositionID: integer (nullable \u003d true)\n |-- Producer1: string (nullable \u003d true)\n |-- Producer2: string (nullable \u003d true)\n |-- Language1: integer (nullable \u003d true)\n |-- Language2: integer (nullable \u003d true)\n |-- LogIdentifierID: string (nullable \u003d true)\n |-- PrimaryFG: integer (nullable \u003d true)\n |-- CategoryCD: string (nullable \u003d true)\n |-- CategoryDescription: string (nullable \u003d true)\n |-- ProgramClassCD: string (nullable \u003d true)\n |-- ProgramClassDescription: string (nullable \u003d true)\n\nval \u001b[1m\u001b[34mcdCategory\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [CategoryID: int, CategoryCD: string ... 1 more field]\nval \u001b[1m\u001b[34mcdProgramClass\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [ProgramClassID: int, ProgramClassCD: string ... 1 more field]\nval \u001b[1m\u001b[34mfullLog\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [ProgramClassID: int, CategoryID: int ... 34 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d5"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d6"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d7"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d8"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d9"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d10"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730551491646_1129938563",
+      "id": "paragraph_1730551491646_1129938563",
+      "dateCreated": "2024-11-02 13:44:51.647",
+      "dateStarted": "2024-11-07 13:50:50.524",
+      "dateFinished": "2024-11-07 13:50:53.221",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nfullLog.select(\"ProgramClassCD\", \"ProgramClassDescription\", \"Duration\").show(5, false)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:51:06.222",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------+--------------------------------------+----------------+\n|ProgramClassCD|ProgramClassDescription               |Duration        |\n+--------------+--------------------------------------+----------------+\n|PGR           |PROGRAM                               |02:00:00.0000000|\n|PGR           |PROGRAM                               |02:00:00.0000000|\n|PRC           |PROMOTION OF UPCOMING CANADIAN PROGRAM|00:00:30.0000000|\n|PRC           |PROMOTION OF UPCOMING CANADIAN PROGRAM|00:00:30.0000000|\n|COM           |COMMERCIAL MESSAGE                    |00:00:15.0000000|\n+--------------+--------------------------------------+----------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d11"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d12"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d13"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d14"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730636781679_847988342",
+      "id": "paragraph_1730636781679_847988342",
+      "dateCreated": "2024-11-03 13:26:21.686",
+      "dateStarted": "2024-11-07 13:51:06.233",
+      "dateFinished": "2024-11-07 13:51:08.471",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nIn python I could pretty much say:\n\n`fullLog \u003d fullLog.withColumn` \n\nI Scala I can not do this, I have to rename the value or it will return me some recursion error. That I can\u0027t create a new value with the same identifier as the old value is due Spark’s DataFrame API design and JVM nuances around null safety. \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:51:14.471",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eIn python I could pretty much say:\u003c/p\u003e\n\u003cp\u003e\u003ccode\u003efullLog \u003d fullLog.withColumn\u003c/code\u003e\u003c/p\u003e\n\u003cp\u003eI Scala I can not do this, I have to rename the value or it will return me some recursion error. That I can\u0026rsquo;t create a new value with the same identifier as the old value is due Spark’s DataFrame API design and JVM nuances around null safety.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730638608098_1236788279",
+      "id": "paragraph_1730638608098_1236788279",
+      "dateCreated": "2024-11-03 13:56:48.098",
+      "dateStarted": "2024-11-07 13:51:14.468",
+      "dateFinished": "2024-11-07 13:51:14.501",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval fullLogSec: DataFrame \u003d fullLog.withColumn(\n    \"DurationInSeconds\",\n    (\n        col(\"Duration\").substr(1,2)*3600 +\n        col(\"Duration\").substr(4,2)*60 +\n        col(\"Duration\").substr(7,2) \n        ))\n\nfullLogSec.select(\"ProgramClassCD\", \"ProgramClassDescription\", \"DurationInSeconds\").show(5,false)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:51:22.881",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------+--------------------------------------+-----------------+\n|ProgramClassCD|ProgramClassDescription               |DurationInSeconds|\n+--------------+--------------------------------------+-----------------+\n|PGR           |PROGRAM                               |7200.0           |\n|PGR           |PROGRAM                               |7200.0           |\n|PRC           |PROMOTION OF UPCOMING CANADIAN PROGRAM|30.0             |\n|PRC           |PROMOTION OF UPCOMING CANADIAN PROGRAM|30.0             |\n|COM           |COMMERCIAL MESSAGE                    |15.0             |\n+--------------+--------------------------------------+-----------------+\nonly showing top 5 rows\n\nval \u001b[1m\u001b[34mfullLogSec\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [ProgramClassID: int, CategoryID: int ... 35 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d15"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d16"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d17"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d18"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730637815055_676665365",
+      "id": "paragraph_1730637815055_676665365",
+      "dateCreated": "2024-11-03 13:43:35.056",
+      "dateStarted": "2024-11-07 13:51:22.889",
+      "dateFinished": "2024-11-07 13:51:24.583",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### Grouping, Ordering, and Having \nThe `groupBy` and `orderBy` functions do pretty much what you would expect from knowing SQL. However, there is a major difference in Spark: the return value:\n\n- `DataFrame.groupBy → DataFrameGroupBy`\n- `DataFrame.orderBy → spark.sql.dataframe.DataFrame`\n\nWe would need to perform an aggregate operation (such as `sum`) on the DataFrameGroupBy to get a DataFrame. \n\nAs **having** is just filtering after grouping there is no Scala equivalent, just use `filter` or `where` (which is just an aias for filter), the latter being alias for the former.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:51:38.388",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eGrouping, Ordering, and Having\u003c/h4\u003e\n\u003cp\u003eThe \u003ccode\u003egroupBy\u003c/code\u003e and \u003ccode\u003eorderBy\u003c/code\u003e functions do pretty much what you would expect from knowing SQL. However, there is a major difference in Spark: the return value:\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ccode\u003eDataFrame.groupBy → DataFrameGroupBy\u003c/code\u003e\u003c/li\u003e\n\u003cli\u003e\u003ccode\u003eDataFrame.orderBy → spark.sql.dataframe.DataFrame\u003c/code\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003eWe would need to perform an aggregate operation (such as \u003ccode\u003esum\u003c/code\u003e) on the DataFrameGroupBy to get a DataFrame.\u003c/p\u003e\n\u003cp\u003eAs \u003cstrong\u003ehaving\u003c/strong\u003e is just filtering after grouping there is no Scala equivalent, just use \u003ccode\u003efilter\u003c/code\u003e or \u003ccode\u003ewhere\u003c/code\u003e (which is just an aias for filter), the latter being alias for the former.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730713899268_98616696",
+      "id": "paragraph_1730713899268_98616696",
+      "dateCreated": "2024-11-04 10:51:39.268",
+      "dateStarted": "2024-11-07 13:51:38.390",
+      "dateFinished": "2024-11-07 13:51:38.413",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval analysisOne  \u003d (\n    fullLogSec.groupBy($\"ProgramClassCD\", $\"ProgramClassDescription\")\n    .agg(sum(\"DurationInSeconds\").alias(\"durationTotal\"))\n    .orderBy(\"durationTotal\")\n)\nanalysisOne.show(20, false)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:51:41.552",
+      "progress": 100,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------+--------------------------------------+-------------+\n|ProgramClassCD|ProgramClassDescription               |durationTotal|\n+--------------+--------------------------------------+-------------+\n|MOS           |Mosaic                                |NULL         |\n|COR           |CORNERSTONE                           |NULL         |\n|SOL           |SOLICITATION MESSAGE                  |596.0        |\n|MER           |MERCHANDISING                         |1680.0       |\n|SPO           |SPONSORSHIP MESSAGE                   |1766.0       |\n|REG           |REGIONAL                              |6749.0       |\n|MVC           |MUSIC VIDEO CLIP                      |15814.0      |\n|OFT           |OFF AIR DUE TO TECHNICAL DIFFICULTY   |21871.0      |\n|LOC           |LOCAL ADVERTISING                     |24410.0      |\n|SO            |MAY IDENTIFY THE SIGN ON\\OFF OF A DAY |59115.0      |\n|PSA           |PUBLIC SERVICE ANNOUNCEMENT           |70982.0      |\n|NRN           |No recognized nationality             |72195.0      |\n|MAG           |MAGAZINE PROGRAM                      |75624.0      |\n|ID            |NETWORK IDENTIFICATION MESSAGE        |117735.0     |\n|OFF           |SCHEDULED OFF AIR TIME PERIOD         |187304.0     |\n|PRO           |PROMOTION OF NON-CANADIAN PROGRAM     |416717.0     |\n|PGI           |PROGRAM INFOMERCIAL                   |765074.0     |\n|PRC           |PROMOTION OF UPCOMING CANADIAN PROGRAM|1359433.0    |\n|SEG           |SEGMENT OF A PROGRAM                  |1535873.0    |\n|PFS           |PROGRAM FIRST SEGMENT                 |1897637.0    |\n+--------------+--------------------------------------+-------------+\nonly showing top 20 rows\n\nval \u001b[1m\u001b[34manalysisOne\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [ProgramClassCD: string, ProgramClassDescription: string ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d19"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d20"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d21"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d22"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d23"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730638438766_38461916",
+      "id": "paragraph_1730638438766_38461916",
+      "dateCreated": "2024-11-03 13:53:58.766",
+      "dateStarted": "2024-11-07 13:51:41.563",
+      "dateFinished": "2024-11-07 13:51:47.423",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nThe agg method totals on a given axis and returns a DataFrame; in fact, if we look at the type of analysisOne the interpreter returns to us, we can see that a DataFrame in Spark is a Dataset[Row]. We can use it on GroupedData. The agg method takes an aggregation function. Usually one of the built-in aggregation functions, such as avg, max, min, sum, and count, is used.\n\nThe [agg](https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/RelationalGroupedDataset.html) method is an important method; I advise you to look at the documentation.\n\nInstead of using a sum(column), we could have added a dictionary to agg, with the column we want to aggregate over and the function we want to use: agg(Map(\u0027durationInSeconds\u0027 -\u003e\u0027sum\u0027)). However, that would prevent us from aliasing the column and we would have to rename it later.",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 11:12:21.983",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eThe agg method totals on a given axis and returns a DataFrame; in fact, if we look at the type of analysisOne the interpreter returns to us, we can see that a DataFrame in Spark is a Dataset[Row]. We can use it on GroupedData. The agg method takes an aggregation function. Usually one of the built-in aggregation functions, such as avg, max, min, sum, and count, is used.\u003c/p\u003e\n\u003cp\u003eThe \u003ca href\u003d\"https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/RelationalGroupedDataset.html\"\u003eagg\u003c/a\u003e method is an important method; I advise you to look at the documentation.\u003c/p\u003e\n\u003cp\u003eInstead of using a sum(column), we could have added a dictionary to agg, with the column we want to aggregate over and the function we want to use: agg(Map(\u0026lsquo;durationInSeconds\u0026rsquo; -\u0026gt;\u0026lsquo;sum\u0026rsquo;)). However, that would prevent us from aliasing the column and we would have to rename it later.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730713576616_1229096609",
+      "id": "paragraph_1730713576616_1229096609",
+      "dateCreated": "2024-11-04 10:46:16.619",
+      "dateStarted": "2024-11-11 11:12:21.984",
+      "dateFinished": "2024-11-11 11:12:22.007",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nanalysisOne.select(\"durationTotal\").summary().show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:52:20.871",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-----------------+\n|summary|    durationTotal|\n+-------+-----------------+\n|  count|               20|\n|   mean|        2051488.0|\n| stddev|6552543.237596247|\n|    min|            596.0|\n|    25%|          15814.0|\n|    50%|          72195.0|\n|    75%|         765074.0|\n|    max|       2.944018E7|\n+-------+-----------------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d24"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d25"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d26"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d27"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d28"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d29"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d30"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d31"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730731930477_822252458",
+      "id": "paragraph_1730731930477_822252458",
+      "dateCreated": "2024-11-04 15:52:10.479",
+      "dateStarted": "2024-11-07 13:52:20.884",
+      "dateFinished": "2024-11-07 13:52:25.611",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### Mixing Scala and SQL\n\n\nSpark knows two SQL dialects: the ANSI standard SQL and HiveQL, Apache Hive is an open-source data warehouse. This notebook will use ANSI SQL and some built-in SQL functions that Spark provides. \n\n**Declarative programming with SQL**\n\nSQL is a declarative language; programmes describe their desired results without explicitly listing commands or steps that must be performed. The DML (data manipulation language) part of SQL basically splits the programmes into two parts:\n\n- Operations, comprising select columns from a target and functions such as count, max, but also aliasing; `select whatever as alias, count(*) from target`\n- Conditions: comprising  conditions where or having, grouping, ordering, and filtering; `where condition1 and condition 2, group by condition1 having something order by`\n\nPython is an imperative programming language. In short, some object represents the state of a computer program, and the program gives instructions on how to change that state. The common state in PySpark is the DataFrame. Python will continuously change that data frame. Scala is formost a functional language that is declarative, Scala will use that data frame as imput for a new changed dataframe. Scala and SQL are alike in the fact that we do not as such prescribe how to change things but simply state the result we expect. SQL is faster than Python as SQL is native to Spark. I would suggest that SQL is faster then Scala too as the data Spark uses is almost always tabular. SQL, which is an application of relational algebra, is a domain-specific language; SQL is made for relational data. Whereas Python \u0026 Scala can handle relational data but are not made for it, which is why programmers usually use an ORM like SQLAlchemy or Slick.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:52:29.240",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eMixing Scala and SQL\u003c/h4\u003e\n\u003cp\u003eSpark knows two SQL dialects: the ANSI standard SQL and HiveQL, Apache Hive is an open-source data warehouse. This notebook will use ANSI SQL and some built-in SQL functions that Spark provides.\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003eDeclarative programming with SQL\u003c/strong\u003e\u003c/p\u003e\n\u003cp\u003eSQL is a declarative language; programmes describe their desired results without explicitly listing commands or steps that must be performed. The DML (data manipulation language) part of SQL basically splits the programmes into two parts:\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003eOperations, comprising select columns from a target and functions such as count, max, but also aliasing; \u003ccode\u003eselect whatever as alias, count(*) from target\u003c/code\u003e\u003c/li\u003e\n\u003cli\u003eConditions: comprising  conditions where or having, grouping, ordering, and filtering; \u003ccode\u003ewhere condition1 and condition 2, group by condition1 having something order by\u003c/code\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003ePython is an imperative programming language. In short, some object represents the state of a computer program, and the program gives instructions on how to change that state. The common state in PySpark is the DataFrame. Python will continuously change that data frame. Scala is formost a functional language that is declarative, Scala will use that data frame as imput for a new changed dataframe. Scala and SQL are alike in the fact that we do not as such prescribe how to change things but simply state the result we expect. SQL is faster than Python as SQL is native to Spark. I would suggest that SQL is faster then Scala too as the data Spark uses is almost always tabular. SQL, which is an application of relational algebra, is a domain-specific language; SQL is made for relational data. Whereas Python \u0026amp; Scala can handle relational data but are not made for it, which is why programmers usually use an ORM like SQLAlchemy or Slick.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730732280241_992366965",
+      "id": "paragraph_1730732280241_992366965",
+      "dateCreated": "2024-11-04 15:58:00.241",
+      "dateStarted": "2024-11-07 13:52:29.242",
+      "dateFinished": "2024-11-07 13:52:29.261",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\nval path \u003d \"/media/laurens/DISKJE/ProgrammingProjects/elements/\" \nval elements \u003d spark.read\n    .option(\"header\", \"true\")\n    .option(\"inferSchema\", \"true\")\n    .csv(\n        path\u003dpath + \"Periodic_Table_Of_Elements.csv\"\n    )\nelements.printSchema()\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:52:34.892",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- AtomicNumber: integer (nullable \u003d true)\n |-- Element: string (nullable \u003d true)\n |-- Symbol: string (nullable \u003d true)\n |-- AtomicMass: double (nullable \u003d true)\n |-- NumberofNeutrons: integer (nullable \u003d true)\n |-- NumberofProtons: integer (nullable \u003d true)\n |-- NumberofElectrons: integer (nullable \u003d true)\n |-- Period: integer (nullable \u003d true)\n |-- Group: integer (nullable \u003d true)\n |-- Phase: string (nullable \u003d true)\n |-- Radioactive: string (nullable \u003d true)\n |-- Natural: string (nullable \u003d true)\n |-- Metal: string (nullable \u003d true)\n |-- Nonmetal: string (nullable \u003d true)\n |-- Metalloid: string (nullable \u003d true)\n |-- Type: string (nullable \u003d true)\n |-- AtomicRadius: double (nullable \u003d true)\n |-- Electronegativity: double (nullable \u003d true)\n |-- FirstIonization: double (nullable \u003d true)\n |-- Density: double (nullable \u003d true)\n |-- MeltingPoint: double (nullable \u003d true)\n |-- BoilingPoint: double (nullable \u003d true)\n |-- NumberOfIsotopes: integer (nullable \u003d true)\n |-- Discoverer: string (nullable \u003d true)\n |-- Year: integer (nullable \u003d true)\n |-- SpecificHeat: double (nullable \u003d true)\n |-- NumberofShells: integer (nullable \u003d true)\n |-- NumberofValence: integer (nullable \u003d true)\n\nval \u001b[1m\u001b[34mpath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m \u003d /media/laurens/DISKJE/ProgrammingProjects/elements/\nval \u001b[1m\u001b[34melements\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [AtomicNumber: int, Element: string ... 26 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d32"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d33"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730733520659_1931719515",
+      "id": "paragraph_1730733520659_1931719515",
+      "dateCreated": "2024-11-04 16:18:40.671",
+      "dateStarted": "2024-11-07 13:52:34.904",
+      "dateFinished": "2024-11-07 13:52:35.566",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nelements.select(\"AtomicNumber\", \"Element\", \"MeltingPoint\", \"BoilingPoint\").show(6)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:52:42.147",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------------+---------+------------+------------+\n|AtomicNumber|  Element|MeltingPoint|BoilingPoint|\n+------------+---------+------------+------------+\n|           1| Hydrogen|      14.175|       20.28|\n|           2|   Helium|        NULL|        4.22|\n|           3|  Lithium|      453.85|      1615.0|\n|           4|Beryllium|     1560.15|      2742.0|\n|           5|    Boron|     2573.15|      4200.0|\n|           6|   Carbon|     3948.15|      4300.0|\n+------------+---------+------------+------------+\nonly showing top 6 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d34"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730733813259_1122978996",
+      "id": "paragraph_1730733813259_1122978996",
+      "dateCreated": "2024-11-04 16:23:33.260",
+      "dateStarted": "2024-11-07 13:52:42.157",
+      "dateFinished": "2024-11-07 13:52:42.684",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nelements.filter($\"AtomicNumber\" \u003d\u003d\u003d 79).select(\n   \"Element\", \"AtomicNumber\", \"MeltingPoint\", \"BoilingPoint\"\n).show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:52:45.311",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+------------+------------+------------+\n|Element|AtomicNumber|MeltingPoint|BoilingPoint|\n+-------+------------+------------+------------+\n|   Gold|          79|     1337.73|      3129.0|\n+-------+------------+------------+------------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d35"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730734448356_1587871207",
+      "id": "paragraph_1730734448356_1587871207",
+      "dateCreated": "2024-11-04 16:34:08.357",
+      "dateStarted": "2024-11-07 13:52:45.322",
+      "dateFinished": "2024-11-07 13:52:45.923",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nSay we wanted to get following query in SQL:   \n\n```\nSELECT\n  element,\n  period,\n  count(*)\nFROM elements\nWHERE phase\u003d\u0027gas\u0027\nGROUP BY period;\n```\n\nWe could write the following line of code in Scala, just notice how we do not need to select the columns (we can but don\u0027t have too), the groupBy function will do this for us.",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:52:54.366",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eSay we wanted to get following query in SQL:\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003eSELECT\n  element,\n  period,\n  count(*)\nFROM elements\nWHERE phase\u003d\u0027gas\u0027\nGROUP BY period;\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003eWe could write the following line of code in Scala, just notice how we do not need to select the columns (we can but don\u0026rsquo;t have too), the groupBy function will do this for us.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730734536205_1937404196",
+      "id": "paragraph_1730734536205_1937404196",
+      "dateCreated": "2024-11-04 16:35:36.206",
+      "dateStarted": "2024-11-07 13:52:54.366",
+      "dateFinished": "2024-11-07 13:52:54.380",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nelements.filter($\"phase\" \u003d\u003d\u003d \"gas\").groupBy(\"Element\",\"Period\").count().show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:52:57.400",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------+------+-----+\n| Element|Period|count|\n+--------+------+-----+\n|   Xenon|     5|    1|\n|    Neon|     2|    1|\n|  Helium|     1|    1|\n|Fluorine|     2|    1|\n|  Oxygen|     2|    1|\n+--------+------+-----+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d36"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d37"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730734816296_860600918",
+      "id": "paragraph_1730734816296_860600918",
+      "dateCreated": "2024-11-04 16:40:16.296",
+      "dateStarted": "2024-11-07 13:52:57.407",
+      "dateFinished": "2024-11-07 13:52:58.523",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nWe can use plain SQL in a scala function, we need to create a view first\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-05 14:49:28.981",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe can use plain SQL in a scala function, we need to create a view first\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730735353429_1825426023",
+      "id": "paragraph_1730735353429_1825426023",
+      "dateCreated": "2024-11-04 16:49:13.429",
+      "dateStarted": "2024-11-05 14:49:28.986",
+      "dateFinished": "2024-11-05 14:49:28.998",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nelements.createOrReplaceTempView(\"elementsView\")\n\nspark.sql(\n\"\"\"\nSELECT\n  element,\n  period,\n  count(*) as count\nFROM elementsView\nWHERE phase\u003d\u0027gas\u0027\nGROUP BY element, period;\n\"\"\"\n).show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:53:03.010",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------+------+-----+\n| element|period|count|\n+--------+------+-----+\n|   Xenon|     5|    1|\n|    Neon|     2|    1|\n|  Helium|     1|    1|\n|Fluorine|     2|    1|\n|  Oxygen|     2|    1|\n+--------+------+-----+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d38"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d39"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730734956800_405443899",
+      "id": "paragraph_1730734956800_405443899",
+      "dateCreated": "2024-11-04 16:42:36.800",
+      "dateStarted": "2024-11-07 13:53:03.022",
+      "dateFinished": "2024-11-07 13:53:03.778",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nyou might have noticed we have not assigned a name, we dind\u0027t say `val elementsView \u003d`, so where does Spark store this view? Within the session is the short answer. \nWe can inspect the sessions\u0027 catalog that contains the views. \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:53:41.225",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eyou might have noticed we have not assigned a name, we dind\u0026rsquo;t say \u003ccode\u003eval elementsView \u003d\u003c/code\u003e, so where does Spark store this view? Within the session is the short answer.\u003cbr /\u003e\nWe can inspect the sessions\u0026rsquo; catalog that contains the views.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730735884168_875242589",
+      "id": "paragraph_1730735884168_875242589",
+      "dateCreated": "2024-11-04 16:58:04.169",
+      "dateStarted": "2024-11-07 13:53:41.225",
+      "dateFinished": "2024-11-07 13:53:41.236",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval r \u003d spark.catalog.listTables().show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:53:45.407",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------------+-------+---------+-----------+---------+-----------+\n|        name|catalog|namespace|description|tableType|isTemporary|\n+------------+-------+---------+-----------+---------+-----------+\n|elementsView|   NULL|       []|       NULL|TEMPORARY|       true|\n+------------+-------+---------+-----------+---------+-----------+\n\nval \u001b[1m\u001b[34mr\u001b[0m: \u001b[1m\u001b[32mUnit\u001b[0m \u003d ()\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d40"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730735491920_346388767",
+      "id": "paragraph_1730735491920_346388767",
+      "dateCreated": "2024-11-04 16:51:31.920",
+      "dateStarted": "2024-11-07 13:53:45.412",
+      "dateFinished": "2024-11-07 13:53:46.148",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### View vs. Table\n\nA quick side note on the difference between a view and a table. The important difference is that a table is an existing entity in the database or data warehouse, whereas a view is the instructions on how to create the table. A view is therefor also known as a virtual table.\n\nYou will notice this difference in use: a table can be placed directly in memory (if the memory available is big enough of course), and a view needs to be computed every single time a session is started. This has an immediate effect on performance. Operations on a table are faster.\n\nWhy use a view? If you want to create a table from different tables but intend to use it sparsely, it wouldn\u0027t be worth creating an actual object in persistent storage for it. Then you should use a view.\n\nSpark and views are slightly different; you have already created the object (the DataFrame you are referencing) when making it a view. Performance-wise, this should be on par with loading a table in memory.\n\nA view created with `createOrReplaceTempView` only exists as long as the DataFrame exist, that is, for the duration of the session.\n\nA view created with `createOrReplaceGlobalView` exists as long as there is a Spark application. This is really only necessary if you have an application that requires multiple SparkSessions to cooperate.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 13:53:56.052",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eView vs. Table\u003c/h4\u003e\n\u003cp\u003eA quick side note on the difference between a view and a table. The important difference is that a table is an existing entity in the database or data warehouse, whereas a view is the instructions on how to create the table. A view is therefor also known as a virtual table.\u003c/p\u003e\n\u003cp\u003eYou will notice this difference in use: a table can be placed directly in memory (if the memory available is big enough of course), and a view needs to be computed every single time a session is started. This has an immediate effect on performance. Operations on a table are faster.\u003c/p\u003e\n\u003cp\u003eWhy use a view? If you want to create a table from different tables but intend to use it sparsely, it wouldn\u0026rsquo;t be worth creating an actual object in persistent storage for it. Then you should use a view.\u003c/p\u003e\n\u003cp\u003eSpark and views are slightly different; you have already created the object (the DataFrame you are referencing) when making it a view. Performance-wise, this should be on par with loading a table in memory.\u003c/p\u003e\n\u003cp\u003eA view created with \u003ccode\u003ecreateOrReplaceTempView\u003c/code\u003e only exists as long as the DataFrame exist, that is, for the duration of the session.\u003c/p\u003e\n\u003cp\u003eA view created with \u003ccode\u003ecreateOrReplaceGlobalView\u003c/code\u003e exists as long as there is a Spark application. This is really only necessary if you have an application that requires multiple SparkSessions to cooperate.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730735609592_1394361392",
+      "id": "paragraph_1730735609592_1394361392",
+      "dateCreated": "2024-11-04 16:53:29.592",
+      "dateStarted": "2024-11-07 13:53:56.051",
+      "dateFinished": "2024-11-07 13:53:56.067",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark \nval q1 \u003d spark.read\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .csv(\"/media/laurens/DISKJE/Backblaze/DriveStatsQ1/\")\n\nval q2 \u003d spark.read\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .csv(\"/media/laurens/DISKJE/Backblaze/DriveStatsQ2/\")\n\nval q3 \u003d spark.read\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .csv(\"/media/laurens/DISKJE/Backblaze/DriveStatsQ4/\")\n  \nval q4 \u003d spark.read\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .csv(\"/media/laurens/DISKJE/Backblaze/DriveStatsQ4/\")\n\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 11:20:20.912",
+      "progress": 100,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mq1\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [date: date, serial_number: string ... 127 more fields]\nval \u001b[1m\u001b[34mq2\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [date: string, serial_number: string ... 127 more fields]\nval \u001b[1m\u001b[34mq3\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [date: date, serial_number: string ... 129 more fields]\nval \u001b[1m\u001b[34mq4\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [date: date, serial_number: string ... 129 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d0"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d1"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d2"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d3"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d4"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d5"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d6"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d7"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d8"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d9"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d10"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d11"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730735971126_1013571181",
+      "id": "paragraph_1730735971126_1013571181",
+      "dateCreated": "2024-11-04 16:59:31.126",
+      "dateStarted": "2024-11-11 11:20:20.936",
+      "dateFinished": "2024-11-11 11:30:04.937",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### Backblaze\nBackblaze is a cloud storage provider that, among other things, offers a service for IaaS. For instance, for storage in the cloud. Backblaze offers you many hard disk drive options; how would you know which one to choose? You want the best fitting capacity with the lowest failure rate. Spark can determine this.\n\nFor the following programming examples, you will need to download the quarterly files for 2019 (q1–q4) from [Backblaze](https://www.backblaze.com/cloud-storage/resources/hard-drive-test-data).\n\nYou need to unpack all the folders; Spark has no automatic unzipping. Furthermore, you need to use your own paths if you run the code in the notebook. But be aware this 10+ gig of data. But hey we are doing Big Data!\n\nI happen to know that q3 and q4 have more columns than the other quarters.  This information you won\u0027t get from calling `printSchema`,  `show`, or `count`. But we can revert to simple Scala if we want to know the difference in number of columns.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-08 15:38:07.638",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eBackblaze\u003c/h4\u003e\n\u003cp\u003eBackblaze is a cloud storage provider that, among other things, offers a service for IaaS. For instance, for storage in the cloud. Backblaze offers you many hard disk drive options; how would you know which one to choose? You want the best fitting capacity with the lowest failure rate. Spark can determine this.\u003c/p\u003e\n\u003cp\u003eFor the following programming examples, you will need to download the quarterly files for 2019 (q1–q4) from \u003ca href\u003d\"https://www.backblaze.com/cloud-storage/resources/hard-drive-test-data\"\u003eBackblaze\u003c/a\u003e.\u003c/p\u003e\n\u003cp\u003eYou need to unpack all the folders; Spark has no automatic unzipping. Furthermore, you need to use your own paths if you run the code in the notebook. But be aware this 10+ gig of data. But hey we are doing Big Data!\u003c/p\u003e\n\u003cp\u003eI happen to know that q3 and q4 have more columns than the other quarters.  This information you won\u0026rsquo;t get from calling \u003ccode\u003eprintSchema\u003c/code\u003e,  \u003ccode\u003eshow\u003c/code\u003e, or \u003ccode\u003ecount\u003c/code\u003e. But we can revert to simple Scala if we want to know the difference in number of columns.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730805319960_868460450",
+      "id": "paragraph_1730805319960_868460450",
+      "dateCreated": "2024-11-05 12:15:19.963",
+      "dateStarted": "2024-11-08 15:38:07.638",
+      "dateFinished": "2024-11-08 15:38:07.681",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nq4.columns.length - q1.columns.length",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 14:26:52.313",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres1\u001b[0m: \u001b[1m\u001b[32mInt\u001b[0m \u003d 2\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730804372970_1096807875",
+      "id": "paragraph_1730804372970_1096807875",
+      "dateCreated": "2024-11-05 11:59:32.970",
+      "dateStarted": "2024-11-11 14:26:52.414",
+      "dateFinished": "2024-11-11 14:26:53.301",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \n#### Helpers\nAs we are using Scala we might as well write some helpers for I can envision that we quite often would want to make one DataFrame of several csv files that happen to have a differing `columns` size. Normally I would keep these type of helpers in a seperate \"tools\" file, that you can import if you need it. Saves you having to repeat yourself, staying DRY so to say. Here I will just write them.  \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 14:27:09.841",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eHelpers\u003c/h4\u003e\n\u003cp\u003eAs we are using Scala we might as well write some helpers for I can envision that we quite often would want to make one DataFrame of several csv files that happen to have a differing \u003ccode\u003ecolumns\u003c/code\u003e size. Normally I would keep these type of helpers in a seperate \u0026ldquo;tools\u0026rdquo; file, that you can import if you need it. Saves you having to repeat yourself, staying DRY so to say. Here I will just write them.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730805617015_592074303",
+      "id": "paragraph_1730805617015_592074303",
+      "dateCreated": "2024-11-05 12:20:17.016",
+      "dateStarted": "2024-11-11 14:27:09.844",
+      "dateFinished": "2024-11-11 14:27:10.212",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n/**\n * Personally I think this code needs no additional comment, the name tells us it purpose the typing tells the nature of the input and output.\n * This of course changes when you to use this function outside of this notebook, you would need to document it.\n */\ndef compareColumnSize(dfs: List[DataFrame]): List[Int] \u003d dfs.map(_.columns.length)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 14:27:14.689",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "def compareColumnSize(dfs: List[org.apache.spark.sql.DataFrame]): \u001b[1m\u001b[32mList[Int]\u001b[0m\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730805428857_1900262044",
+      "id": "paragraph_1730805428857_1900262044",
+      "dateCreated": "2024-11-05 12:17:08.861",
+      "dateStarted": "2024-11-11 14:27:14.701",
+      "dateFinished": "2024-11-11 14:27:15.291",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\ncompareColumnSize(List(q1,q2,q3,q4))",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 14:27:18.356",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mres2\u001b[0m: \u001b[1m\u001b[32mList[Int]\u001b[0m \u003d List(129, 129, 131, 131)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730806493841_1387636713",
+      "id": "paragraph_1730806493841_1387636713",
+      "dateCreated": "2024-11-05 12:34:53.842",
+      "dateStarted": "2024-11-11 14:27:18.373",
+      "dateFinished": "2024-11-11 14:27:18.805",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \nNow we have to make a choice, are we going to drop the columns of q3 and q4 or are we adding two columns to q1 / q2?\nThe latter is more fun, besides there might be interesting data in those two columns. Of course we have to consider that we need not only two create to columns, but also have fill them and type them.  \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-08 15:39:27.021",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eNow we have to make a choice, are we going to drop the columns of q3 and q4 or are we adding two columns to q1 / q2?\u003cbr /\u003e\nThe latter is more fun, besides there might be interesting data in those two columns. Of course we have to consider that we need not only two create to columns, but also have fill them and type them.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730806719701_1299730650",
+      "id": "paragraph_1730806719701_1299730650",
+      "dateCreated": "2024-11-05 12:38:39.701",
+      "dateStarted": "2024-11-08 15:39:27.021",
+      "dateFinished": "2024-11-08 15:39:27.038",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\nval extraColumns \u003d q4.columns.toSet.diff(q1.columns.toSet)\n\nval q1Ex \u003d extraColumns.foldLeft(q1) { (df, col) \u003d\u003e\n  df.withColumn(col, lit(null).cast(StringType)) } \n  \n val q2Ex \u003d extraColumns.foldLeft(q2) { (df, col) \u003d\u003e\n  df.withColumn(col, lit(null).cast(StringType)) } \n  \nval backblaze2019 \u003d \n    q1Ex.select(q4.columns.map(col): _*)\n    .union(q2Ex.select(q4.columns.map(col): _*))\n    .union(q3.select(q4.columns.map(col): _*))\n    .union(q4)\n    ",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 14:29:53.026",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[33mwarning: \u001b[0m3 deprecations (since 2.13.0); for details, enable `:setting -deprecation` or `:replay -deprecation`\nval \u001b[1m\u001b[34mextraColumns\u001b[0m: \u001b[1m\u001b[32mscala.collection.immutable.Set[String]\u001b[0m \u003d HashSet(smart_18_normalized, smart_18_raw)\nval \u001b[1m\u001b[34mq1Ex\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [date: date, serial_number: string ... 129 more fields]\nval \u001b[1m\u001b[34mq2Ex\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [date: string, serial_number: string ... 129 more fields]\nval \u001b[1m\u001b[34mbackblaze2019\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [date: string, serial_number: string ... 129 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730807480807_1880103363",
+      "id": "paragraph_1730807480807_1880103363",
+      "dateCreated": "2024-11-05 12:51:20.807",
+      "dateStarted": "2024-11-11 14:29:53.040",
+      "dateFinished": "2024-11-11 14:29:54.716",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### Code clarification\nIf you come from Python this code will need a bit of explaining. `foldLeft` is a [fold](https://en.wikipedia.org/wiki/Fold_(higher-order_function)) a typical function from the functional programming paradigm. `foldLeft` applies a binary operation (everything within  {...} ) between successive elements of the collections it was called upon, in our case `extraColumns`, going left to right and starting with `q1`. Only after the expression is evaluated the result is assigned to the value. \n\n `:_*` is the Scala syntax to treat an array as individual arguments.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-08 15:27:03.130",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eCode clarification\u003c/h4\u003e\n\u003cp\u003eIf you come from Python this code will need a bit of explaining. \u003ccode\u003efoldLeft\u003c/code\u003e is a \u003ca href\u003d\"https://en.wikipedia.org/wiki/Fold_(higher-order_function)\"\u003efold\u003c/a\u003e a typical function from the functional programming paradigm. \u003ccode\u003efoldLeft\u003c/code\u003e applies a binary operation (everything within  {\u0026hellip;} ) between successive elements of the collections it was called upon, in our case \u003ccode\u003eextraColumns\u003c/code\u003e, going left to right and starting with \u003ccode\u003eq1\u003c/code\u003e. Only after the expression is evaluated the result is assigned to the value.\u003c/p\u003e\n\u003cp\u003e\u003ccode\u003e:_*\u003c/code\u003e is the Scala syntax to treat an array as individual arguments.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730809052956_1597635281",
+      "id": "paragraph_1730809052956_1597635281",
+      "dateCreated": "2024-11-05 13:17:32.956",
+      "dateStarted": "2024-11-08 15:27:03.130",
+      "dateFinished": "2024-11-08 15:27:06.384",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nbackblaze2019.filter(col(\"failure\") \u003d\u003d\u003d 1).select(\"model\", \"serial_number\").show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 14:32:55.928",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+--------------+\n|               model| serial_number|\n+--------------------+--------------+\n|  TOSHIBA MQ01ABF050|     57GGPD9NT|\n|       ST12000NM0007|      ZJV03Y00|\n|          ST500LM030|      ZDEB33GK|\n|         ST4000DM000|      Z302T6CW|\n|HGST HMS5C4040BLE640|PL1331LAHBYKEH|\n+--------------------+--------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d13"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730808346641_98911311",
+      "id": "paragraph_1730808346641_98911311",
+      "dateCreated": "2024-11-05 13:05:46.646",
+      "dateStarted": "2024-11-11 14:32:55.943",
+      "dateFinished": "2024-11-11 14:32:58.445",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nIf we want to use any SQL direct we first have to create a view again.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-06 14:03:36.950",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eIf we want to use any SQL direct we first have to create a view again.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730810530725_429864602",
+      "id": "paragraph_1730810530725_429864602",
+      "dateCreated": "2024-11-05 13:42:10.726",
+      "dateStarted": "2024-11-06 14:03:36.950",
+      "dateFinished": "2024-11-06 14:03:36.963",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nbackblaze2019.createOrReplaceTempView(\"backblazeView\")\nspark.catalog.listTables().show()\n\nspark.sql(\n    \"\"\"\n    SELECT model, serial_number \n    FROM backblazeView \n    where failure \u003d 1\n    \"\"\"\n).show(5)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 14:33:11.218",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------------+-------+---------+-----------+---------+-----------+\n|         name|catalog|namespace|description|tableType|isTemporary|\n+-------------+-------+---------+-----------+---------+-----------+\n|backblazeView|   NULL|       []|       NULL|TEMPORARY|       true|\n+-------------+-------+---------+-----------+---------+-----------+\n\n+--------------------+--------------+\n|               model| serial_number|\n+--------------------+--------------+\n|  TOSHIBA MQ01ABF050|     57GGPD9NT|\n|       ST12000NM0007|      ZJV03Y00|\n|          ST500LM030|      ZDEB33GK|\n|         ST4000DM000|      Z302T6CW|\n|HGST HMS5C4040BLE640|PL1331LAHBYKEH|\n+--------------------+--------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d14"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d15"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730812663007_1242557354",
+      "id": "paragraph_1730812663007_1242557354",
+      "dateCreated": "2024-11-05 14:17:43.007",
+      "dateStarted": "2024-11-11 14:33:11.241",
+      "dateFinished": "2024-11-11 14:33:14.202",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nspark.sql(\n    \"\"\"\n    SELECT model, min(capacity_bytes / pow(1024, 3)) as min_GB, max(capacity_bytes / pow(1024, 3)) as max_GB\n    FROM backblazeView\n    GROUP BY model\n    ORDER BY max_GB DESC\n    \"\"\"\n).show(5)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 14:33:30.165",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+--------------------+-------+\n|               model|              min_GB| max_GB|\n+--------------------+--------------------+-------+\n|       ST16000NM001G|             14902.0|14902.0|\n| TOSHIBA MG07ACA14TA|-9.31322574615478...|13039.0|\n|       ST12000NM0007|-9.31322574615478...|11176.0|\n|HGST HUH721212ALE600|             11176.0|11176.0|\n|HGST HUH721212ALN604|-9.31322574615478...|11176.0|\n+--------------------+--------------------+-------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d16"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d17"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730813522632_665328644",
+      "id": "paragraph_1730813522632_665328644",
+      "dateCreated": "2024-11-05 14:32:02.644",
+      "dateStarted": "2024-11-11 14:33:30.177",
+      "dateFinished": "2024-11-11 14:42:43.192",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nWe can of course do the same in Scala\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 14:06:57.359",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe can of course do the same in Scala\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730984794674_1253877484",
+      "id": "paragraph_1730984794674_1253877484",
+      "dateCreated": "2024-11-07 14:06:34.681",
+      "dateStarted": "2024-11-07 14:06:57.359",
+      "dateFinished": "2024-11-07 14:06:57.376",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nbackblaze2019.groupBy($\"model\")\n    .agg(\n        min($\"capacity_bytes\" / Math.pow(1024,3)).alias(\"min_GB\"),\n        max($\"capacity_bytes\" / Math.pow(1024,3)).alias(\"max_GB\")\n    ).orderBy($\"max_GB\").show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 14:45:23.684",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------+------------------+------------------+\n|         model|            min_GB|            max_GB|\n+--------------+------------------+------------------+\n|   ST3160316AS|149.05062103271484|149.05062103271484|\n|WDC WD1600AAJS|149.05062103271484|149.05062103271484|\n|   ST3160318AS|149.05062103271484|149.05062103271484|\n|WDC WD2500AAJS|232.88591766357422|232.88591766357422|\n| ST250LM004 HN|232.88591766357422|232.88591766357422|\n+--------------+------------------+------------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d18"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d19"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730813534677_1707817900",
+      "id": "paragraph_1730813534677_1707817900",
+      "dateCreated": "2024-11-05 14:32:14.681",
+      "dateStarted": "2024-11-11 14:45:23.722",
+      "dateFinished": "2024-11-11 14:54:37.031",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### The having clause\nWhat if you want to filter after grouping? In SQL, you have the having clause. In Scala, you just use the `filter` function or its alias `where` after the grouping. Just remember that `groupBy` returns a grouping object. You need a DataFrame to use `filter`. In general, this won\u0027t be a problem, as you will want to use some aggregation over the group.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-06 14:25:27.016",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eThe having clause\u003c/h4\u003e\n\u003cp\u003eWhat if you want to filter after grouping? In SQL, you have the having clause. In Scala, you just use the \u003ccode\u003efilter\u003c/code\u003e function or its alias \u003ccode\u003ewhere\u003c/code\u003e after the grouping. Just remember that \u003ccode\u003egroupBy\u003c/code\u003e returns a grouping object. You need a DataFrame to use \u003ccode\u003efilter\u003c/code\u003e. In general, this won\u0026rsquo;t be a problem, as you will want to use some aggregation over the group.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730899309218_1106565318",
+      "id": "paragraph_1730899309218_1106565318",
+      "dateCreated": "2024-11-06 14:21:49.221",
+      "dateStarted": "2024-11-06 14:25:27.016",
+      "dateFinished": "2024-11-06 14:25:27.034",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nspark.sql(\n    \"\"\"\n    SELECT model, min(capacity_bytes / pow(1024, 3)) as min_GB, max(capacity_bytes / pow(1024, 3)) as max_GB\n    FROM backblazeView\n    GROUP BY model\n    HAVING min_GB !\u003d max_GB\n    ORDER BY max_GB DESC\n    \"\"\"\n).show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-06 14:25:34.777",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+--------------------+-----------------+\n|               model|              min_GB|           max_GB|\n+--------------------+--------------------+-----------------+\n| TOSHIBA MG07ACA14TA|-9.31322574615478...|          13039.0|\n|       ST12000NM0007|-9.31322574615478...|          11176.0|\n|HGST HUH721212ALN604|-9.31322574615478...|          11176.0|\n|       ST10000NM0086|-9.31322574615478...|           9314.0|\n|        ST8000NM0055|-9.31322574615478...|7452.036460876465|\n+--------------------+--------------------+-----------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d19"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d20"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730898812176_2047498812",
+      "id": "paragraph_1730898812176_2047498812",
+      "dateCreated": "2024-11-06 14:13:32.185",
+      "dateStarted": "2024-11-06 14:25:34.789",
+      "dateFinished": "2024-11-06 14:34:46.725",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nIn Scala I like to use filter instead of where, as filtering is something ingrained in functional programming\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-06 14:23:51.182",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eIn Scala I like to use filter instead of where, as filtering is something ingrained in functional programming\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730899370217_1370500237",
+      "id": "paragraph_1730899370217_1370500237",
+      "dateCreated": "2024-11-06 14:22:50.217",
+      "dateStarted": "2024-11-06 14:23:51.156",
+      "dateFinished": "2024-11-06 14:23:51.188",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nbackblaze2019.groupBy($\"model\")\n    .agg(\n        min($\"capacity_bytes\" / Math.pow(1024,3)).alias(\"min_GB\"),\n        max($\"capacity_bytes\" / Math.pow(1024,3)).alias(\"max_GB\")\n    )\n    .filter($\"min_GB\" \u003d!\u003d $\"max_GB\")\n    .orderBy($\"max_GB\")\n    .show(5)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 14:45:40.823",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+--------------------+-----------------+\n|               model|              min_GB|           max_GB|\n+--------------------+--------------------+-----------------+\n|         ST4000DM005|-9.31322574615478...|3726.023277282715|\n|         ST4000DM000|-9.31322574615478...|3726.023277282715|\n|HGST HUS726040ALE610|-9.31322574615478...|3726.023277282715|\n|HGST HMS5C4040ALE640|-9.31322574615478...|3726.023277282715|\n|HGST HMS5C4040BLE640|-9.31322574615478...|3726.023277282715|\n+--------------------+--------------------+-----------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d20"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d21"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730899431156_828781113",
+      "id": "paragraph_1730899431156_828781113",
+      "dateCreated": "2024-11-06 14:23:51.156",
+      "dateStarted": "2024-11-11 14:54:37.073",
+      "dateFinished": "2024-11-11 15:03:50.029",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### data definition language (DDL)\nThus far we have focussed on using the DML part of SQL. We can equally use DDL in Spark. For instance we can create views just using SQL \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 14:59:43.578",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003edata definition language (DDL)\u003c/h4\u003e\n\u003cp\u003eThus far we have focussed on using the DML part of SQL. We can equally use DDL in Spark. For instance we can create views just using SQL\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730899661690_617282003",
+      "id": "paragraph_1730899661690_617282003",
+      "dateCreated": "2024-11-06 14:27:41.691",
+      "dateStarted": "2024-11-11 14:59:43.583",
+      "dateFinished": "2024-11-11 14:59:43.804",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nspark.sql(\n    \"\"\"\n    CREATE OR REPLACE TEMP VIEW drive_days AS\n    SELECT model, count(*)  AS drive_days\n    FROM backblazeView\n    GROUP BY model\n    \"\"\"\n)\n\nspark.sql(\n    \"\"\"\n    CREATE OR REPLACE TEMP VIEW failures AS\n    SELECT model, count(*) AS failures\n    FROM backblazeView\n    WHERE failure \u003d 1\n    GROUP BY model\n    \"\"\"\n)\n\nspark.catalog.listTables().show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 14:59:46.694",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------------+-------+---------+-----------+---------+-----------+\n|         name|catalog|namespace|description|tableType|isTemporary|\n+-------------+-------+---------+-----------+---------+-----------+\n|backblazeView|   NULL|       []|       NULL|TEMPORARY|       true|\n|   drive_days|   NULL|       []|       NULL|TEMPORARY|       true|\n|     failures|   NULL|       []|       NULL|TEMPORARY|       true|\n+-------------+-------+---------+-----------+---------+-----------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d22"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730900469124_1392000012",
+      "id": "paragraph_1730900469124_1392000012",
+      "dateCreated": "2024-11-06 14:41:09.126",
+      "dateStarted": "2024-11-11 15:03:50.136",
+      "dateFinished": "2024-11-11 15:03:51.250",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nWe have added two views to our catalog. Of course we can do the same in Scala. ",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-06 14:53:09.644",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eWe have added two views to our catalog. Of course we can do the same in Scala.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730900506494_1879554500",
+      "id": "paragraph_1730900506494_1879554500",
+      "dateCreated": "2024-11-06 14:41:46.496",
+      "dateStarted": "2024-11-06 14:53:09.644",
+      "dateFinished": "2024-11-06 14:53:09.656",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval failure \u003d backblaze2019\n    .filter($\"failure\" \u003d\u003d\u003d 1)\n    .groupBy($\"model\")\n    .count()\n    .withColumnRenamed(\"count\", \"failures\") \n    \nfailure.show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 15:05:58.948",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+--------+\n|               model|failures|\n+--------------------+--------+\n|         ST4000DM000|     448|\n|       ST12000NM0007|    1141|\n|  TOSHIBA MQ01ABF050|      77|\n|HGST HMS5C4040BLE640|      50|\n|          ST500LM030|      22|\n|        ST8000NM0055|     227|\n|         ST6000DX000|       6|\n|HGST HUH728080ALE600|       9|\n| TOSHIBA MQ01ABF050M|      27|\n|         ST8000DM002|     120|\n|       ST500LM012 HN|      45|\n|HGST HUH721212ALN604|      21|\n|       ST10000NM0086|      15|\n|HGST HMS5C4040ALE640|      15|\n|HGST HUH721212ALE600|       4|\n|        WDC WD60EFRX|       1|\n|      WDC WD5000LPCX|       2|\n|         ST8000DM004|       1|\n|      WDC WD5000LPVX|      16|\n|     TOSHIBA HDWF180|       1|\n+--------------------+--------+\nonly showing top 20 rows\n\nval \u001b[1m\u001b[34mfailure\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [model: string, failures: bigint]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d23"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d24"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730901146473_111433143",
+      "id": "paragraph_1730901146473_111433143",
+      "dateCreated": "2024-11-06 14:52:26.473",
+      "dateStarted": "2024-11-11 15:05:58.970",
+      "dateFinished": "2024-11-11 15:15:11.441",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nScala knows relational operators, such as `union` and `intersect`. As a table is a set of rows, we can use the set relational operators in Spark too. Given sets **A** and **B**, these operators are:\n1. Union. $$A \\cup B \u003d \\ x \\in A \\lor x \\in B$$. \nIn practice, you will probably mostly see the **union**.\n2. Intersect. $$A \\cap B \u003d x \\in A \\land x \\in B$$  \n3. Except. $$A / B \u003d  x \\in A, x\\ni B$$\n\nIt is important that when you use a set operator on two tables, they have the same number of columns and that those columns have comparable data types! \n\nAlso, you should be aware that there is a difference between a **SQL union**, which removes duplicates, and a **Spark union**, which does not do so. There is a good reason why the Spark union does not remove duplicates; this is a very computationally expensive operation in a distributed environment. This is why you should not use plain **union** in SQL but the **union all** in distributed environments.\n\nWhy do you need this? Simply because you quite often want to join the data from multiple tables in a bigger table. We have done this above using Scala, i.e., `.union(q2Ex.select(q4.columns.map(col): _*))` Now we will do so in SQL.",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 14:40:34.261",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eScala knows relational operators, such as \u003ccode\u003eunion\u003c/code\u003e and \u003ccode\u003eintersect\u003c/code\u003e. As a table is a set of rows, we can use the set relational operators in Spark too. Given sets \u003cstrong\u003eA\u003c/strong\u003e and \u003cstrong\u003eB\u003c/strong\u003e, these operators are:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eUnion. $$A \\cup B \u003d \\ x \\in A \\lor x \\in B$$.\u003cbr /\u003e\nIn practice, you will probably mostly see the \u003cstrong\u003eunion\u003c/strong\u003e.\u003c/li\u003e\n\u003cli\u003eIntersect. $$A \\cap B \u003d x \\in A \\land x \\in B$$\u003c/li\u003e\n\u003cli\u003eExcept. $$A / B \u003d  x \\in A, x\\ni B$$\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003eIt is important that when you use a set operator on two tables, they have the same number of columns and that those columns have comparable data types!\u003c/p\u003e\n\u003cp\u003eAlso, you should be aware that there is a difference between a \u003cstrong\u003eSQL union\u003c/strong\u003e, which removes duplicates, and a \u003cstrong\u003eSpark union\u003c/strong\u003e, which does not do so. There is a good reason why the Spark union does not remove duplicates; this is a very computationally expensive operation in a distributed environment. This is why you should not use plain \u003cstrong\u003eunion\u003c/strong\u003e in SQL but the \u003cstrong\u003eunion all\u003c/strong\u003e in distributed environments.\u003c/p\u003e\n\u003cp\u003eWhy do you need this? Simply because you quite often want to join the data from multiple tables in a bigger table. We have done this above using Scala, i.e., \u003ccode\u003e.union(q2Ex.select(q4.columns.map(col): _*))\u003c/code\u003e Now we will do so in SQL.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730905209466_2107493829",
+      "id": "paragraph_1730905209466_2107493829",
+      "dateCreated": "2024-11-06 16:00:09.466",
+      "dateStarted": "2024-11-07 14:40:34.262",
+      "dateFinished": "2024-11-07 14:40:34.294",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark \nval backblazeColumns \u003d q4.columns.mkString(\", \")\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 15:06:32.046",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mbackblazeColumns\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m \u003d date, serial_number, model, capacity_bytes, failure, smart_1_normalized, smart_1_raw, smart_2_normalized, smart_2_raw, smart_3_normalized, smart_3_raw, smart_4_normalized, smart_4_raw, smart_5_normalized, smart_5_raw, smart_7_normalized, smart_7_raw, smart_8_normalized, smart_8_raw, smart_9_normalized, smart_9_raw, smart_10_normalized, smart_10_raw, smart_11_normalized, smart_11_raw, smart_12_normalized, smart_12_raw, smart_13_normalized, smart_13_raw, smart_15_normalized, smart_15_raw, smart_16_normalized, smart_16_raw, smart_17_normalized, smart_17_raw, smart_18_normalized, smart_18_raw, smart_22_normalized, smart_22_raw, smart_23_normalized, smart_23_raw, smart_24_normalized, smart_24_raw, smart_168_normalized, smart_168_raw, s...\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730985182836_95051132",
+      "id": "paragraph_1730985182836_95051132",
+      "dateCreated": "2024-11-07 14:13:02.838",
+      "dateStarted": "2024-11-11 15:15:11.516",
+      "dateFinished": "2024-11-11 15:15:12.109",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n// create the views\nq1Ex.createOrReplaceTempView(\"Q1\")\nq2Ex.createOrReplaceTempView(\"Q2\")\nq3.createOrReplaceTempView(\"Q3\")\nq4.createOrReplaceTempView(\"Q4\")\n\n//create the same view as the backblaze_2019 DataFrame\nspark.sql(\n    s\"\"\"\n    CREATE OR REPLACE TEMP VIEW backblaze_2019 AS\n    SELECT $backblazeColumns from Q1 UNION ALL\n    SELECT $backblazeColumns from Q2 UNION ALL\n    SELECT $backblazeColumns from Q3 UNION ALL\n    SELECT $backblazeColumns from Q4\n    \"\"\"\n)\n\nspark.catalog.listTables().show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 14:33:27.378",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------+-------+---------+-----------+---------+-----------+\n|          name|catalog|namespace|description|tableType|isTemporary|\n+--------------+-------+---------+-----------+---------+-----------+\n|backblaze_2019|   NULL|       []|       NULL|TEMPORARY|       true|\n| backblazeView|   NULL|       []|       NULL|TEMPORARY|       true|\n|  elementsView|   NULL|       []|       NULL|TEMPORARY|       true|\n|            Q1|   NULL|       []|       NULL|TEMPORARY|       true|\n|            Q2|   NULL|       []|       NULL|TEMPORARY|       true|\n|            Q3|   NULL|       []|       NULL|TEMPORARY|       true|\n|            Q4|   NULL|       []|       NULL|TEMPORARY|       true|\n+--------------+-------+---------+-----------+---------+-----------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d58"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730985842305_1651050335",
+      "id": "paragraph_1730985842305_1651050335",
+      "dateCreated": "2024-11-07 14:24:02.308",
+      "dateStarted": "2024-11-07 14:33:27.391",
+      "dateFinished": "2024-11-07 14:33:28.389",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval driveDays \u003d backblaze2019\n    .groupBy(col(\"model\"))\n    .count()\n    .withColumnRenamed(\"count\", \"days\")\n    \ndriveDays.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 14:46:49.921",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------------------+--------+\n|              model|    days|\n+-------------------+--------+\n|        ST4000DM000| 7286457|\n|      ST12000NM0007|12903775|\n|        ST8000DM005|    9039|\n|         ST320LT007|     145|\n|TOSHIBA MQ01ABF050M|  140672|\n+-------------------+--------+\nonly showing top 5 rows\n\nval \u001b[1m\u001b[34mdriveDays\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [model: string, days: bigint]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d59"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d60"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730985965293_1101452887",
+      "id": "paragraph_1730985965293_1101452887",
+      "dateCreated": "2024-11-07 14:26:05.297",
+      "dateStarted": "2024-11-07 14:46:49.932",
+      "dateFinished": "2024-11-07 14:56:04.648",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nBelow is a somewhat complexer query. These types of query can become very expansive indeed, I\u0027ve seen versions with hundreds of lines. \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 17:25:15.095",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eBelow is a somewhat complexer query. These types of query can become very expansive indeed, I\u0026rsquo;ve seen versions with hundreds of lines.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730996414276_564023924",
+      "id": "paragraph_1730996414276_564023924",
+      "dateCreated": "2024-11-07 17:20:14.283",
+      "dateStarted": "2024-11-07 17:25:15.100",
+      "dateFinished": "2024-11-07 17:25:15.371",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\nspark.sql(\n    \"\"\"\n    SELECT failures.model, failures / drive_days AS failure_rate\n    FROM (\n        SELECT model, count(*) AS drive_days\n        FROM backblazeView\n        GROUP BY model\n        ) drive_days\n    INNER JOIN (\n        SELECT model, count(*) AS failures\n        FROM backblazeView\n        WHERE failure \u003d 1\n        GROUP BY model\n        ) failures\n    ON drive_days.model \u003d failures.model\n    ORDER BY failure_rate DESC\n    \"\"\"\n).show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 15:32:51.264",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------------------+--------------------+\n|             model|        failure_rate|\n+------------------+--------------------+\n|       ST8000DM004|9.157509157509158E-4|\n|TOSHIBA MQ01ABF050|4.325648285470316E-4|\n|        ST500LM030|2.728648326842457...|\n|     ST500LM012 HN|2.412868632707775E-4|\n|    WDC WD5000LPVX|2.012148345636782...|\n+------------------+--------------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d61"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d62"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d63"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d64"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730987135052_1518385178",
+      "id": "paragraph_1730987135052_1518385178",
+      "dateCreated": "2024-11-07 14:45:35.052",
+      "dateStarted": "2024-11-07 15:32:51.295",
+      "dateFinished": "2024-11-07 15:42:39.651",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nEven this admittedly not too complicated query is much clearer in Scala  \n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 17:27:19.547",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eEven this admittedly not too complicated query is much clearer in Scala\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730989971291_1411562083",
+      "id": "paragraph_1730989971291_1411562083",
+      "dateCreated": "2024-11-07 15:32:51.295",
+      "dateStarted": "2024-11-07 17:27:19.543",
+      "dateFinished": "2024-11-07 17:27:19.562",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval failureRates \u003d \n    driveDays\n    .join(failure, \"model\", \"inner\")\n    .withColumn( \"failureRate\", round(col(\"failures\") / col(\"days\"), 5))\n    .orderBy($\"failureRate\")\n\nfailureRates.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-07 17:47:00.491",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+-------+--------+-----------+\n|               model|   days|failures|failureRate|\n+--------------------+-------+--------+-----------+\n|HGST HMS5C4040ALE640|1056281|      15|     1.0E-5|\n|HGST HMS5C4040BLE640|4670589|      50|     1.0E-5|\n|HGST HUH721212ALE600| 348400|       4|     1.0E-5|\n|HGST HUH721212ALN604|2897165|      21|     1.0E-5|\n| TOSHIBA MG07ACA14TA| 684764|      14|     2.0E-5|\n+--------------------+-------+--------+-----------+\nonly showing top 5 rows\n\nval \u001b[1m\u001b[34mfailureRates\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [model: string, days: bigint ... 2 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d67"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d68"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d69"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d70"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730996839543_1291057036",
+      "id": "paragraph_1730996839543_1291057036",
+      "dateCreated": "2024-11-07 17:27:19.543",
+      "dateStarted": "2024-11-07 17:47:00.509",
+      "dateFinished": "2024-11-07 17:56:30.106",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md \n\nOf course you probably want to make this a simple function so you contain the partial solution in a single namespace.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 15:20:20.052",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eOf course you probably want to make this a simple function so you contain the partial solution in a single namespace.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1730997033648_1957523463",
+      "id": "paragraph_1730997033648_1957523463",
+      "dateCreated": "2024-11-07 17:30:33.650",
+      "dateStarted": "2024-11-11 15:20:20.039",
+      "dateFinished": "2024-11-11 15:20:20.321",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark \n/**\n * Function to show the failure rate of Hard Disk Drives\n */\ndef failureRate(driveStats: DataFrame): DataFrame \u003d {\n   \n    val driveDays \u003d driveStats    \n        .groupBy(col(\"model\"))\n        .count()\n        .withColumnRenamed(\"count\", \"days\")\n    \n    val failures \u003d driveStats\n        .filter($\"failure\" \u003d\u003d\u003d 1)\n        .groupBy($\"model\")\n        .count()\n        .withColumnRenamed(\"count\", \"failure\") \n    \n    val answer \u003d driveDays\n        .join(failures, \"model\", \"inner\")\n        .withColumn( \"failureRate\", round(col(\"failure\") / col(\"days\"), 5))\n        .orderBy($\"failureRate\")\n    \n    answer \n\n}",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 15:39:39.729",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "def failureRate(driveStats: org.apache.spark.sql.DataFrame): \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731334820033_1882035861",
+      "id": "paragraph_1731334820033_1882035861",
+      "dateCreated": "2024-11-11 15:20:20.044",
+      "dateStarted": "2024-11-11 15:43:12.568",
+      "dateFinished": "2024-11-11 15:43:13.975",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval fails \u003d failureRate(backblaze2019)\nfails.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 15:33:41.943",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+-------+-------+-----------+\n|               model|   days|failure|failureRate|\n+--------------------+-------+-------+-----------+\n|HGST HMS5C4040ALE640|1056281|     15|     1.0E-5|\n|HGST HMS5C4040BLE640|4670589|     50|     1.0E-5|\n|HGST HUH721212ALE600| 348400|      4|     1.0E-5|\n|HGST HUH721212ALN604|2897165|     21|     1.0E-5|\n| TOSHIBA MG07ACA14TA| 684764|     14|     2.0E-5|\n+--------------------+-------+-------+-----------+\nonly showing top 5 rows\n\nval \u001b[1m\u001b[34mfails\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [model: string, days: bigint ... 2 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d25"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d26"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d27"
+            },
+            {
+              "jobUrl": "http://laurens-TECRA-Z40-A.home:4040/jobs/job?id\u003d28"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731335222058_1531042255",
+      "id": "paragraph_1731335222058_1531042255",
+      "dateCreated": "2024-11-11 15:27:02.058",
+      "dateStarted": "2024-11-11 15:33:41.948",
+      "dateFinished": "2024-11-11 15:43:12.405",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n#### Conclusion\nThis is a long notebook and there is more to say about Spark, SQL, and Scala. Those are the more advanced topics, such as:\n\n1. functional vs imperative programming \n2. SQL Expressions in Spark\n3. Caching\n4. Windows functions\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 15:47:11.187",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch4\u003eConclusion\u003c/h4\u003e\n\u003cp\u003eThis is a long notebook and there is more to say about Spark, SQL, and Scala. Those are the more advanced topics, such as:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003efunctional vs imperative programming\u003c/li\u003e\n\u003cli\u003eSQL Expressions in Spark\u003c/li\u003e\n\u003cli\u003eCaching\u003c/li\u003e\n\u003cli\u003eWindows functions\u003c/li\u003e\n\u003c/ol\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731335621948_1125777454",
+      "id": "paragraph_1731335621948_1125777454",
+      "dateCreated": "2024-11-11 15:33:41.951",
+      "dateStarted": "2024-11-11 15:47:11.176",
+      "dateFinished": "2024-11-11 15:47:11.489",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-11-11 15:47:11.181",
+      "progress": 0,
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1731336431170_1909337310",
+      "id": "paragraph_1731336431170_1909337310",
+      "dateCreated": "2024-11-11 15:47:11.180",
+      "status": "READY"
+    }
+  ],
+  "name": "SparkSQL",
+  "id": "2KBC3Y7Y2",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.11.2",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}
